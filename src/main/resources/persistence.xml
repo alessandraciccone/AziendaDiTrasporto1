@@ -5,10 +5,22 @@
     <persistence-unit name="azienda_di_trasporto">
         <!-- Il nome della persistence unit è importante e ci servirà usarlo dopo nel codice JAVA -->
         <!-- Se non dichiaro le mie entities qua, non le troverà e non creerà automaticamente le tabelle -->
-        <class>riccardogulin.entities.Animal</class>
-        <class>riccardogulin.entities.Cat</class>
-        <class>riccardogulin.entities.Dog</class>
-        <class>riccardogulin.entities.Owner</class>
+        <class>entities.Abbonamento</class>
+        <class>entities.AssegnazioneTratta</class>
+        <class>entities.Biglietto</class>
+        <class>entities.PuntoEmissione</class>
+        <class>entities.Tessera</class>
+        <class>entities.Tratta</class>
+        <class>entities.Utente</class>
+        <class>entities.Veicolo</class>
+        <class>entities.Vidimazione</class>
+        <class>entities.TitoloDiViaggio</class>
+
+
+
+
+
+
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/azienda_di_trasporto"/>
             <!-- Dopo l'ultimo slash devo inserire il nome del database (QUESTO DEVE ESISTERE PERO') -->
