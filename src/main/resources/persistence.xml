@@ -14,6 +14,7 @@
         <class>entities.Utente</class>
         <class>entities.Veicolo</class>
         <class>entities.Vidimazione</class>
+        <class>entities.TitoloDiViaggio</class>
 
 
 
