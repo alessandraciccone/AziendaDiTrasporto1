@@ -23,15 +23,19 @@ public class Utente {
 
     @OneToMany(mappedBy = "utente")
     private List<Abbonamento> abbonamenti = new ArrayList<>();
+    @OneToMany(mappedBy = "utente")
+    private List<Tessera> tessere = new ArrayList<>();
+
 
     public Utente(){};
-
-    public Utente(UUID idUtente, String nome, String cognome, LocalDate dataDiNascita, List<Abbonamento> abbonamenti) {
+    public Utente(UUID idUtente, String nome, String cognome, LocalDate dataDiNascita, List<Abbonamento> abbonamenti, List<Tessera> tessere) {
         this.idUtente = idUtente;
         Nome = nome;
         Cognome = cognome;
         DataDiNascita = dataDiNascita;
         this.abbonamenti = abbonamenti;
+        this.tessere = tessere;
+
 
 
     }
@@ -72,6 +76,14 @@ public class Utente {
         this.abbonamenti = abbonamenti;
     }
 
+    public List<Tessera> getTessere() {
+        return tessere;
+    }
+
+    public void setTessere(List<Tessera> tessere) {
+        this.tessere = tessere;
+    }
+
     @Override
     public String toString() {
         return "Utente{" +
@@ -80,6 +92,7 @@ public class Utente {
                 ", Cognome='" + Cognome + '\'' +
                 ", DataDiNascita=" + DataDiNascita +
                 ", abbonamenti=" + abbonamenti +
+                ", tessere=" + tessere +
                 '}';
     }
 }
