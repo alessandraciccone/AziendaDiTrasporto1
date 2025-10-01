@@ -2,6 +2,8 @@ package entities;
 
 import jakarta.persistence.*;
 import java.util.UUID;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Table(name= "tratte")
@@ -18,6 +20,10 @@ public class Tratta {
 
     @Column(nullable=false)
     private int tempoPrevisto;          //in minuti
+
+    @OneToMany(mappedBy = "tratta", cascade = CascadeType.ALL)
+    private List<AssegnazioneTratta> assegnazioni = new ArrayList<>();
+
 
     // costruttori
     public Tratta() {}

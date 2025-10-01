@@ -3,6 +3,8 @@ package entities;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import entities.Veicolo;
+
 
 @Entity
 @Table(name = "assegnazioni_tratte")
@@ -12,14 +14,14 @@ public class AssegnazioneTratta {
     @GeneratedValue
     private UUID id;
 
-    // @ManyToOne
-    // @JoinColumn(name = "tratta_id", nullable = false)
-     private Tratta tratta;
+    @ManyToOne
+    @JoinColumn(name = "tratta_id", nullable = false)
+    private Tratta tratta;
 
-    // Relazione con Mezzo (tram/autobus)
-    // @ManyToOne
-    // @JoinColumn(name = "mezzo_id", nullable = false)
-    // private Mezzo mezzo;
+    // Relazione con Veicolo (tram/autobus)
+    @ManyToOne
+    @JoinColumn(name = "mezzo_id", nullable = false)
+    private Veicolo veicolo;
 
     private LocalDateTime dataInizio;
     private LocalDateTime dataFine;
@@ -28,11 +30,13 @@ public class AssegnazioneTratta {
     // costruttori
     public AssegnazioneTratta() {}
 
-    public AssegnazioneTratta(Tratta tratta, LocalDateTime dataInizio, int tempoEffettivo) {
+    public AssegnazioneTratta(Tratta tratta, Veicolo veicolo, LocalDateTime dataInizio, int tempoEffettivo) {
         this.tratta = tratta;
+        this.veicolo = veicolo;
         this.dataInizio = dataInizio;
         this.tempoEffettivo = tempoEffettivo;
     }
+
 
     // getter e setter
     public UUID getId() { return id; }
@@ -49,14 +53,21 @@ public class AssegnazioneTratta {
     public int getTempoEffettivo() { return tempoEffettivo; }
     public void setTempoEffettivo(int tempoEffettivo) { this.tempoEffettivo = tempoEffettivo; }
 
+    public Veicolo getVeicolo() { return veicolo;
+     }
+    public void setVeicolo(Veicolo veicolo) { this.veicolo = veicolo; }
+
+
     @Override
     public String toString() {
         return "AssegnazioneTratta{" +
                 "id=" + id +
                 ", tratta=" + (tratta != null ? tratta.getId() : null) +
+                ", veicolo=" + (veicolo != null ? veicolo.getIdVeicolo() : null) +
                 ", dataInizio=" + dataInizio +
                 ", dataFine=" + dataFine +
                 ", tempoEffettivo=" + tempoEffettivo +
                 '}';
     }
+
 }
