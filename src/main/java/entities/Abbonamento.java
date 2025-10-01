@@ -1,5 +1,7 @@
 package entities;
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -7,6 +9,7 @@ import java.util.UUID;
 @Table(name = "abbonamenti")
 public class Abbonamento {
 
+    public static CriteriaBuilder tipoAbbonamento;
     @Id
     @GeneratedValue
     private UUID idAbbonamento;

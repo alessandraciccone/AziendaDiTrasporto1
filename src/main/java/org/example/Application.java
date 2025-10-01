@@ -2,10 +2,16 @@ package org.example;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Id;
 import jakarta.persistence.Persistence;
 import entities.*;
 import dao.VeicoloDAO;
 import com.github.javafaker.Faker;
+
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Application {
@@ -25,6 +31,67 @@ public class Application {
         int capienza = faker.number().numberBetween(100, 250);
         String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
         return new Veicolo(marca, capienza, stato, "TRAM");
+    }
+
+//faker utente
+    private static Utente generaUtenteCasuale() {
+        String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
+    String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
+        List<LocalDate> dataDiNascitaPossibile = new ArrayList<>();
+        dataDiNascitaPossibile.add(LocalDate.of(1993, 12, 14));
+        dataDiNascitaPossibile.add(LocalDate.of(2000, 6, 1));
+        dataDiNascitaPossibile.add(LocalDate.of(1996, 10, 4));
+        dataDiNascitaPossibile.add(LocalDate.of(1957, 12, 6));
+        dataDiNascitaPossibile.add(LocalDate.of(1980, 8, 24));
+        dataDiNascitaPossibile.add(LocalDate.of(1986, 11, 26));
+        dataDiNascitaPossibile.add(LocalDate.of(2005, 1, 23));
+        LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
+List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
+//List <Tessera> tessera= generaTesseraCasuale();
+return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio);//tessera);
+    }
+
+    //faker titolo di viaggio
+
+    private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
+            Utente utente,
+            Tessera tessera,
+            List<PuntoEmissione> puntiEmissione,
+            List<Veicolo> veicoli
+    ) {
+        List<TitoloDiViaggio> titoli = new ArrayList<>();
+        int num = faker.number().numberBetween(1, 7);
+
+        for (int i = 0; i < num; i++) {
+            boolean eAbbonamento = faker.bool().bool();
+            PuntoEmissione punto = faker.options().option(puntiEmissione.toArray(new PuntoEmissione[0]));
+            LocalDate dataEmissione = LocalDate.now().minusDays(faker.number().numberBetween(1, 90));
+            double costo = faker.number().randomDouble(1, 50, 300);
+
+            if (eAbbonamento) {
+                Abbonamento abb = new Abbonamento();
+                abb.setTipo(faker.options().option(Abbonamento.TipoAbbonamento.values()));
+                LocalDate inizio = dataEmissione.minusDays(faker.number().numberBetween(0, 60));
+                LocalDate fine = inizio.plusDays(faker.number().numberBetween(30, 365));
+                abb.setDataInizio(inizio);
+                abb.setDataFine(fine);
+                abb.setPrezzo(costo);
+                abb.setStato(Abbonamento.StatoAbbonamento.ATTIVO);
+                abb.setTessera(tessera);
+                abb.setUtente(utente);
+                titoli.add(abb);
+            } else {
+                Biglietto biglietto = new Biglietto();
+                biglietto.setVeicolo(faker.options().option(veicoli.toArray(new Veicolo[0])));
+                biglietto.setPuntoEmissione(punto);
+                biglietto.setDataEmissione(dataEmissione);
+                biglietto.setCosto(costo);
+                biglietto.setTipo(faker.options().option("Ordinario", "Ridotto", "Turistico"));
+                titoli.add(biglietto);
+            }
+        }
+
+        return titoli;
     }
 
     public static void main(String[] args) {
