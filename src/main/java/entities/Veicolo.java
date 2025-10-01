@@ -2,6 +2,8 @@ package entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "veicoli")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -13,6 +15,12 @@ public abstract class Veicolo {
     private String Marca;
     private int capienza;
     private String statocondizione;
+
+    @OneToMany(mappedBy = "veicolo")
+    private List<Manutenzione> manutenzioneList;
+
+    @OneToMany(mappedBy = "veicolo")
+    private List<AssegnazioneTratta> assegnazioneTrattaList;
 
     public Veicolo(){
     }

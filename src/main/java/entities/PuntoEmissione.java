@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "punto_emissione")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class PuntoEmissione {
 
     @Id
@@ -17,11 +18,8 @@ public class PuntoEmissione {
     private String nome;
     private String indirizzo;
 
-    @OneToMany(mappedBy = "id_rivenditore")
-    private List<Rivenditore> rivenditore;
-
-    @OneToMany(mappedBy = "id_distributore")
-    private List<Distributore> distributore;
+    @OneToMany(mappedBy = "puntoEmissione")
+    private List<TitoloDiViaggio> titoloDiViaggio;
 
 
     public  PuntoEmissione(){}
@@ -58,6 +56,7 @@ public class PuntoEmissione {
     public void setIndirizzo(String indirizzo) {
         this.indirizzo = indirizzo;
     }
+
 
 
 }
