@@ -28,8 +28,8 @@ public class Utente {
 
 
     public Utente(){};
-    public Utente(UUID idUtente, String nome, String cognome, LocalDate dataDiNascita, List<Abbonamento> abbonamenti, List<Tessera> tessere) {
-        this.idUtente = idUtente;
+    public Utente(String nome, String cognome, LocalDate dataDiNascita, List<Abbonamento> abbonamenti, List<Tessera> tessere) {
+
         Nome = nome;
         Cognome = cognome;
         DataDiNascita = dataDiNascita;
