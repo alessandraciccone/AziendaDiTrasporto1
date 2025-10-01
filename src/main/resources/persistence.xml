@@ -13,7 +13,8 @@
         <class>entities.Tratta</class>
         <class>entities.Utente</class>
         <class>entities.Veicolo</class>
-        <class>entities.Vidimazione</class>
+        <class>entities.Rivenditore</class>
+        <class>entities.Distributore</class>
         <class>entities.TitoloDiViaggio</class>
 
 
