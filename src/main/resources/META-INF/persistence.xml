@@ -10,8 +10,6 @@
         
         <!-- Classi entità -->
         <class>entities.Veicolo</class>
-        <class>entities.Autobus</class>
-        <class>entities.Tram</class>
         
         <properties>
             <!-- Configurazione Database -->

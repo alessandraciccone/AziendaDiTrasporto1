@@ -4,23 +4,23 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "veicoli")
-@Inheritance(strategy = InheritanceType.JOINED)
-
-public abstract class Veicolo {
+public class Veicolo {
     @Id
     @GeneratedValue
     private Long idVeicolo;
     private String Marca;
     private int capienza;
     private String statocondizione;
+    private String tipoVeicolo; // AUTOBUS, TRAM, etc.
 
     public Veicolo(){
     }
 
-    public Veicolo(String Marca, int capienza, String statocondizione) {
+    public Veicolo(String Marca, int capienza, String statocondizione, String tipoVeicolo) {
         this.Marca = Marca;
         this.capienza = capienza;
         this.statocondizione = statocondizione;
+        this.tipoVeicolo = tipoVeicolo;
     }
     public Long getIdVeicolo() {
         return idVeicolo;
@@ -43,5 +43,11 @@ public abstract class Veicolo {
     }
     public void setStatocondizione(String statocondizione) {
         this.statocondizione = statocondizione;
+    }
+    public String getTipoVeicolo() {
+        return tipoVeicolo;
+    }
+    public void setTipoVeicolo(String tipoVeicolo) {
+        this.tipoVeicolo = tipoVeicolo;
     }
 }
