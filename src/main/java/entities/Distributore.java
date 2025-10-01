@@ -16,7 +16,7 @@ public class Distributore extends PuntoEmissione{
 
     private DistributoreStato stato;
 
-    
+
 
     public Distributore() {
 
