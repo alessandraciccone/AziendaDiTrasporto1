@@ -1,5 +1,4 @@
 package entities;
-
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -59,10 +58,7 @@ public class Abbonamento {
         this.stato = StatoAbbonamento.ATTIVO;
     }
 
-    // Getter e Setter
-    public UUID getIdAbbonamento() {
-        return idAbbonamento;
-    }
+
 
     public TipoAbbonamento getTipo() {
         return tipo;
