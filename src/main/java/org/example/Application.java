@@ -89,8 +89,9 @@ public class Application {
             System.out.println("\n✅ Operazioni completate!");
         }
     }
+}
 
-    //faker utente
+//faker utente
 
 
     private static Utente generaUtenteCasuale() {
@@ -206,7 +207,7 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         Veicolo autobus = generaAutobusCasuale();
         Veicolo tram = generaTramCasuale();
 
-        veicoloDAO.save(autobus);
+        veicoloDAO.save(autobus);                 
         veicoloDAO.save(tram);
 
         System.out.println("✓ Salvati con JavaFaker:");
@@ -241,8 +242,5 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
 
         em.close();
     }
-}
-
-
 
 
