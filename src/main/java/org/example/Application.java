@@ -94,7 +94,6 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
                 biglietto.setVeicolo(faker.options().option(veicoli.toArray(new Veicolo[0])));
                 biglietto.setPuntoEmissione(punto);
                 biglietto.setDataEmissione(dataEmissione);
-                biglietto.setCosto(costo);
                 titoli.add(biglietto);
             }
         }
