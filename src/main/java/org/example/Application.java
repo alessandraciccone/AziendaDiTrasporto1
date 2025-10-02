@@ -26,14 +26,14 @@ public class Application {
     // Metodi helper per generare veicoli casuali
     private static Veicolo generaAutobusCasuale() {
         int capienza = faker.number().numberBetween(40, 80);
-        String stato = faker.options().option("OK", "KO", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
+        String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
         return new Veicolo(capienza, stato, "AUTOBUS");
     }
 
     private static Veicolo generaTramCasuale() {
         int capienza = faker.number().numberBetween(100, 250);
         String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
-        return new Veicolo( capienza, stato, "TRAM");
+        return new Veicolo(capienza, stato, "TRAM");
     }
 
 
@@ -146,6 +146,7 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
         veicoloDAO.save(tram);
 
         System.out.println("✓ Salvati con JavaFaker:");
+
 
 
 
