@@ -143,8 +143,8 @@ public class Application {
 
 
         // Genera veicoli casuali
-        Veicolo autobus = generaAutobusCasuale();
-        Veicolo tram = generaTramCasuale();
+        Veicolo autobus = generaVeicoloCasuale();
+        Veicolo tram = generaVeicoloCasuale();
 
         veicoloDAO.save(autobus);
         veicoloDAO.save(tram);
@@ -158,8 +158,8 @@ public class Application {
         System.out.println("✓ Tratta salvata: " + tratta.getZonaPartenza() + " → " + tratta.getCapolinea());
 
         //  Genera assegnazioni
-        AssegnazioneTratta ass1 = generaAssegnazioneCasuale(tratta, VeicoloType.AUTOBUS, VeicoloType.TRAM);
-        AssegnazioneTratta ass2 = generaAssegnazioneCasuale(tratta, VeicoloType.TRAM, VeicoloType.AUTOBUS);
+        AssegnazioneTratta ass1 = generaAssegnazioneCasuale(tratta, autobus);
+        AssegnazioneTratta ass2 = generaAssegnazioneCasuale(tratta, tram);
         assegnazioneDAO.save(ass1);
         assegnazioneDAO.save(ass2);
 
@@ -178,6 +178,8 @@ public class Application {
         for (int i = 0; i < numeroDaGenerare; i++) {
             listaPuntiEmissione.add(generaPuntoEmissione());
         }
+
+
         try {
             em = emf.createEntityManager();
             VeicoloDAO veicoloDAO = new VeicoloDAO(em);
