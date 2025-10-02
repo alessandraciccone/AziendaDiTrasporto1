@@ -101,22 +101,7 @@ public class PuntoEmissioneDAO {
 
     }
 
-    //agiornamento 2
-    public void update(DistributoreStato oldStato,DistributoreStato newStato){
-        EntityTransaction transaction = em.getTransaction();
-    transaction.begin();
-        Query query = em.createQuery("UPDATE Distributore d SET d.stato = :new WHERE d.stato = :old");
-        query.setParameter("new", newStato);
-        query.setParameter("old",oldStato);
 
-        int numModified = query.executeUpdate();
-
-        transaction.commit();
-
-        System.out.println(numModified + "elementi aggiornati");
-
-
-    }
 }
 
 
