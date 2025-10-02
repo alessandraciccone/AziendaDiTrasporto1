@@ -148,8 +148,6 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio,tessera,i
         System.out.println("✓ Salvati con JavaFaker:");
 
 
-
-
         //  Genera tratta
         Tratta tratta = generaTrattaCasuale();
         trattaDAO.save(tratta);
