@@ -1,11 +1,13 @@
 package dao;
 
 import entities.Utente;
+import exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
-
 import java.util.List;
 import java.util.UUID;
+import exceptions.NotFoundException;
+
 
 public class UtenteDao {
     private EntityManager em;
@@ -22,11 +24,16 @@ em.getTransaction().commit();
     }
 
     //cerca per id
-    public Utente findById(UUID id){
-        return em.find(Utente.class, id);
+    public Utente findById(UUID id) {
+        Utente utente = em.find(Utente.class, id);
+        if (utente == null) {
+            throw new NotFoundException("Utente con ID " + id + " non trovato.");
+        }
+        return utente;
     }
 
-//cerca tutti gli utenti
+
+    //cerca tutti gli utenti
 public List<Utente> findAll(){
         TypedQuery<Utente> query= em.createQuery("SELECT u FROM Utente u",Utente.class);
         return query.getResultList();
@@ -58,6 +65,7 @@ public List<Utente> findAll(){
         TypedQuery<Utente> query=em.createQuery("SELECT u FROM Utente u WHERE u.admin = true", Utente.class);
         return query.getResultList()
 ;    }
+
 
     //cerca utente non admin
     public  List<Utente> findNonAdminUsers(){
