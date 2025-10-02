@@ -114,8 +114,8 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
     //faker Tratta e AssegnazioneTratta
 
     private static Tratta generaTrattaCasuale() {
-        String zonaPartenza = faker.address().cityName();
-        String capolinea = faker.address().cityName();
+        String zonaPartenza = faker.address().streetAddress();
+        String capolinea = faker.address().streetAddress();
         int tempoPrevisto = faker.number().numberBetween(10, 60);
         return new Tratta(zonaPartenza, capolinea, tempoPrevisto);
     }
