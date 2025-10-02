@@ -9,11 +9,7 @@ import java.util.UUID;
 @Table(name = "rivenditore")
 public class Rivenditore extends PuntoEmissione{
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id_rivenditore")
-    private UUID idRivenditore;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "punto_vendita")
     private RivenditoreType puntoVendita;
 
@@ -26,12 +22,6 @@ public class Rivenditore extends PuntoEmissione{
 
         this.puntoVendita = puntoVendita;
     }
-
-    public UUID getIdRivenditore() {
-        return idRivenditore;
-    }
-
-
 
     public RivenditoreType getPuntoVendita() {
         return puntoVendita;

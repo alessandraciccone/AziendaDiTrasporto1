@@ -19,10 +19,9 @@ public abstract class TitoloDiViaggio {
     private String tipo;
     private LocalDate dataEmissione;
 
-public TitoloDiViaggio(){};
+    public TitoloDiViaggio(){}
 
-    public TitoloDiViaggio(UUID id_Titolo_Di_Viaggio, PuntoEmissione puntoEmissione, Double costo, String tipo, LocalDate dataEmissione) {
-        Id_Titolo_Di_Viaggio = id_Titolo_Di_Viaggio;
+    public TitoloDiViaggio(PuntoEmissione puntoEmissione, Double costo, String tipo, LocalDate dataEmissione) {
         this.puntoEmissione = puntoEmissione;
         this.costo = costo;
         this.tipo = tipo;
