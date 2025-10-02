@@ -158,8 +158,8 @@ public class Application {
         System.out.println("✓ Tratta salvata: " + tratta.getZonaPartenza() + " → " + tratta.getCapolinea());
 
         //  Genera assegnazioni
-        AssegnazioneTratta ass1 = generaAssegnazioneCasuale(tratta, VeicoloType.AUTOBUS,VeicoloType.TRAM);
-        AssegnazioneTratta ass2 = generaAssegnazioneCasuale(tratta, VeicoloType.TRAM,VeicoloType.AUTOBUS);
+        AssegnazioneTratta ass1 = generaAssegnazioneCasuale(tratta, VeicoloType.AUTOBUS, VeicoloType.TRAM);
+        AssegnazioneTratta ass2 = generaAssegnazioneCasuale(tratta, VeicoloType.TRAM, VeicoloType.AUTOBUS);
         assegnazioneDAO.save(ass1);
         assegnazioneDAO.save(ass2);
 
@@ -175,7 +175,7 @@ public class Application {
         List<PuntoEmissione> listaPuntiEmissione = new ArrayList<>();
         int numeroDaGenerare = 5;
 
-        for(int i= 0; i < numeroDaGenerare; i++){
+        for (int i = 0; i < numeroDaGenerare; i++) {
             listaPuntiEmissione.add(generaPuntoEmissione());
         }
         try {
@@ -225,3 +225,4 @@ public class Application {
         }
         em.close();
     }
+}
