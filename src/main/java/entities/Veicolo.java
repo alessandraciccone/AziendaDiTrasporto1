@@ -84,7 +84,7 @@ public class Veicolo {
         this.assegnazioneTrattaList = assegnazioneTrattaList;
     }
 
-    public List<Biglietto> getBigliettoList() {x
+    public List<Biglietto> getBigliettoList() {
         return bigliettoList;
     }
 
