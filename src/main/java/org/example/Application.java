@@ -89,11 +89,10 @@ public class Application {
             System.out.println("\n✅ Operazioni completate!");
         }
     }
-}
 
-//faker utente
+    //faker utente
 
-/*
+
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
     String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
@@ -160,7 +159,7 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
 
     //faker Tratta e AssegnazioneTratta
 
-    /*private static Tratta generaTrattaCasuale() {
+    private static Tratta generaTrattaCasuale() {
         String zonaPartenza = faker.address().cityName();
         String capolinea = faker.address().cityName();
         int tempoPrevisto = faker.number().numberBetween(10, 60);
@@ -207,7 +206,7 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         Veicolo autobus = generaAutobusCasuale();
         Veicolo tram = generaTramCasuale();
 
-        veicoloDAO.save(autobus);                 
+        veicoloDAO.save(autobus);
         veicoloDAO.save(tram);
 
         System.out.println("✓ Salvati con JavaFaker:");
@@ -243,4 +242,7 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         em.close();
     }
 }
-     */
+
+
+
+
