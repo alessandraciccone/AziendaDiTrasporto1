@@ -2,6 +2,7 @@ package dao;
 import entities.Abbonamento;
 import entities.Biglietto;
 import entities.TitoloDiViaggio;
+import exceptions.NotFoundException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.time.LocalDate;
@@ -44,13 +45,17 @@ public class TitoloDiViaggioDao {
     }
 
     //ricerca x id tutti i titoli di viaggio
-    public TitoloDiViaggio findById(UUID id){
-        return em.find(TitoloDiViaggio.class,id);
+
+    public TitoloDiViaggio findById(UUID id) {
+        TitoloDiViaggio titolo = em.find(TitoloDiViaggio.class, id);
+        if (titolo == null) {
+            throw new NotFoundException("Titolo di viaggio con ID " + id + " non trovato.");
+        }
+        return titolo;
     }
 
 
-
-//ricerca tutti i titoli di viaggio
+    //ricerca tutti i titoli di viaggio
     public List<TitoloDiViaggio> findAllTitoli(){
         TypedQuery<TitoloDiViaggio> query=em.createQuery("SELECT a FROM Abbonamento a", TitoloDiViaggio.class);
         return query.getResultList();
