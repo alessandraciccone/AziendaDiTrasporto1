@@ -5,11 +5,11 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "titoli_di_viaggio")
+@Table(name = "biglietti")
 public class Biglietto extends TitoloDiViaggio {
 
     @ManyToOne
-    @JoinColumn(name = "veicolo")
+    @JoinColumn(name = "veicolo_id")
     private Veicolo veicolo;
 
 
