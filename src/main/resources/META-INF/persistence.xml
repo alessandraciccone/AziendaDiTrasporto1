@@ -10,9 +10,18 @@
         
         <!-- Classi entità -->
         <class>entities.Veicolo</class>
-        <class>entities.Autobus</class>
-        <class>entities.Tram</class>
-        
+        <class>entities.Tessera</class>
+        <class>entities.Abbonamento</class>
+        <class>entities.Utente</class>
+        <class>entities.TitoloDiViaggio</class>
+        <class>entities.Biglietto</class>
+        <class>entities.PuntoEmissione</class>
+        <class>entities.Distributore</class>
+        <class>entities.Rivenditore</class>
+        <class>entities.Tratta</class>
+        <class>entities.AssegnazioneTratta</class>
+        <class>entities.Manutenzione</class>
+
         <properties>
             <!-- Configurazione Database -->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
