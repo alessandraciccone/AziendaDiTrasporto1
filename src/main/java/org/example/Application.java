@@ -104,6 +104,11 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
 
 
 */
+
+
+
+
+
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
         VeicoloDAO veicoloDAO = new VeicoloDAO(em);
