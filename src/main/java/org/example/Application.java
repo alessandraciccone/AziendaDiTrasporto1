@@ -57,7 +57,7 @@ LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(
 List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
 List <Tessera> tessera= generaTesseraCasuale();
 boolean isAdmin=faker.bool().bool();
-return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,isAdmin);
+return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio,tessera,isAdmin);
     }
 
 
