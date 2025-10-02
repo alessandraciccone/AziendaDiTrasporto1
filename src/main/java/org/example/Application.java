@@ -2,13 +2,9 @@ package org.example;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Id;
 import jakarta.persistence.Persistence;
 import entities.*;
 import dao.VeicoloDAO;
-
-import dao.TrattaDAO;
-import dao.AssegnazioneTrattaDAO;
 
 import com.github.javafaker.Faker;
 import java.lang.reflect.Array;
@@ -17,55 +13,109 @@ import java.util.*;
 import java.time.LocalDateTime;
 
 
+
 public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
     private static final Faker faker = new Faker(new Locale("it"));
     private static final Random random = new Random();
 
-    // Metodi helper per generare veicoli casuali
-    private static Veicolo generaAutobusCasuale() {
-        int capienza = faker.number().numberBetween(40, 80);
-        String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
-        return new Veicolo(capienza, stato, "AUTOBUS");
+    private static Veicolo generaVeicoloCasuale() {
+        // Genera tipo casuale (AUTOBUS o TRAM)
+        VeicoloType tipo = faker.options().option(VeicoloType.values());
+
+        // Genera capienza basata sul tipo
+        int capienza;
+        if (tipo == VeicoloType.AUTOBUS) {
+            // Gli autobus hanno capienza tra 30 e 80 passeggeri
+            capienza = faker.number().numberBetween(30, 80);
+        } else {
+            // I tram hanno capienza maggiore tra 100 e 250 passeggeri
+            capienza = faker.number().numberBetween(100, 250);
+        }
+
+        // Genera stato casuale tra BUONO, MANUTENZIONE, FUORI_SERVIZIO
+        StatoCondizione statoCondizione = faker.options().option(StatoCondizione.values());
+
+        // Crea e restituisce il veicolo
+        return new Veicolo(tipo, capienza, statoCondizione);
     }
 
-    private static Veicolo generaTramCasuale() {
-        int capienza = faker.number().numberBetween(100, 250);
-        String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
-        return new Veicolo(capienza, stato, "TRAM");
-    }
+    public static void main(String[] args) {
+        EntityManager em = null;
+        
+        try {
+            em = emf.createEntityManager();
+            VeicoloDAO veicoloDAO = new VeicoloDAO(em);
 
+            System.out.println("     GENERAZIONE VEICOLI CASUALI");
+            System.out.println("=====================================");
+
+            // Genera e salva 15 veicoli casuali
+            int numeroVeicoli = 15;
+            System.out.println("📝 Generazione di " + numeroVeicoli + " veicoli casuali...\n");
+
+            for (int i = 1; i <= numeroVeicoli; i++) {
+                Veicolo veicolo = generaVeicoloCasuale();
+                veicoloDAO.save(veicolo);
+            }
+
+            System.out.println("\n   ✓ Veicoli totali generati: " + numeroVeicoli);
+            
+            // Verifica che i veicoli siano stati salvati
+            long count = veicoloDAO.countAll();
+            System.out.println("   📊 Veicoli nel database: " + count);
+            
+            // Mostra tutti i veicoli salvati
+            System.out.println("\n📋 ELENCO VEICOLI NEL DATABASE:");
+            System.out.println("=====================================");
+            List<Veicolo> veicoli = veicoloDAO.findAll();
+            for (int i = 0; i < veicoli.size(); i++) {
+                Veicolo v = veicoli.get(i);
+                System.out.println((i + 1) + ". " + v.getTipo() + 
+                                 " | Capienza: " + v.getCapienza() + 
+                                 " | Stato: " + v.getStatoCondizione());
+            }
+            
+        } catch (Exception e) {
+            System.err.println("❌ Errore durante l'esecuzione: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+            if (emf != null && emf.isOpen()) {
+                emf.close();
+            }
+            System.out.println("\n✅ Operazioni completate!");
+        }
+    }
+}
 
 //faker utente
 
-
-    private static Utente generaUtenteCasuale(
-            List<PuntoEmissione> puntiEmissione,
-            List<Veicolo> veicoli
-    ) {
+/*
+    private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
-        String cognome = faker.options().option("Rossi", "Bianchi", "Marino", "Clemente", "Di Marzio", "Massimi", "Sassi");
+    String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
+        List<LocalDate> dataDiNascitaPossibile = new ArrayList<>();
+        dataDiNascitaPossibile.add(LocalDate.of(1993, 12, 14));
+        dataDiNascitaPossibile.add(LocalDate.of(2000, 6, 1));
+        dataDiNascitaPossibile.add(LocalDate.of(1996, 10, 4));
+        dataDiNascitaPossibile.add(LocalDate.of(1957, 12, 6));
+        dataDiNascitaPossibile.add(LocalDate.of(1980, 8, 24));
+        dataDiNascitaPossibile.add(LocalDate.of(1986, 11, 26));
+        dataDiNascitaPossibile.add(LocalDate.of(2005, 1, 23));
 
-        LocalDate dataDiNascita = faker.options().option(
-                LocalDate.of(1993, 12, 14),
-                LocalDate.of(2000, 6, 1),
-                LocalDate.of(1996, 10, 4),
-                LocalDate.of(1957, 12, 6),
-                LocalDate.of(1980, 8, 24),
-                LocalDate.of(1986, 11, 26),
-                LocalDate.of(2005, 1, 23)
-        );
 
-        boolean isAdmin = faker.bool().bool();
-        List<Tessera> tessere = generaTesseraCasuale();
-        Tessera tessera = tessere.get(0);
-
-        Utente utente = new Utente(nome, cognome, dataDiNascita, new ArrayList<>(), tessere, isAdmin);
-
-        List<TitoloDiViaggio> titoli = generaTitoloDiViaggioCasuale(utente, tessera, puntiEmissione, veicoli);
-        utente.setTitoliDiViaggio(titoli);
-        return utente;
+LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
+List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
+List <Tessera> tessera= generaTesseraCasuale();
+boolean isAdmin=faker.bool().bool();
+return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
     }
+
+
+
 
 
     //faker titolo di viaggio
@@ -93,9 +143,6 @@ public class Application {
                 abb.setDataFine(fine);
                 abb.setTipo(faker.options().option("Mensile","Settimanale"));
                 abb.setTessera(tessera);
-                abb.setAttivo(true);
-                abb.setPuntoEmissione(punto);
-                abb.setDataEmissione(dataEmissione);
                 titoli.add (abb);
             } else {
                 Biglietto biglietto = new Biglietto();
@@ -113,7 +160,7 @@ public class Application {
 
     //faker Tratta e AssegnazioneTratta
 
-    private static Tratta generaTrattaCasuale() {
+    /*private static Tratta generaTrattaCasuale() {
         String zonaPartenza = faker.address().cityName();
         String capolinea = faker.address().cityName();
         int tempoPrevisto = faker.number().numberBetween(10, 60);
@@ -196,5 +243,4 @@ public class Application {
         em.close();
     }
 }
-
-
+     */

@@ -39,10 +39,6 @@ public class Veicolo {
     }
 
     // Costruttore vuoto
-    public Veicolo(int capienza, String stato, String autobus) {
-
-    }
-
     public Veicolo() {
 
     }
