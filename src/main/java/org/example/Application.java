@@ -24,23 +24,21 @@ public class Application {
 
     // Metodi helper per generare veicoli casuali
     private static Veicolo generaAutobusCasuale() {
-        String marca = faker.options().option("Mercedes", "Volvo", "Iveco", "Scania", "MAN", "Renault", "Fiat", "Setra", "Van Hool", "Irisbus");
         int capienza = faker.number().numberBetween(40, 80);
-        String stato = faker.options().option("OK", "KO", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
-        return new Veicolo(marca, capienza, stato, "AUTOBUS");
+        String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
+        return new Veicolo(capienza, stato, "AUTOBUS");
     }
 
     private static Veicolo generaTramCasuale() {
-        String marca = faker.options().option("Siemens", "Bombardier", "Alstom", "AnsaldoBreda", "CAF", "Stadler", "Škoda");
         int capienza = faker.number().numberBetween(100, 250);
         String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
-        return new Veicolo(marca, capienza, stato, "TRAM");
+        return new Veicolo(capienza, stato, "TRAM");
     }
 
 
 //faker utente
 
-    /*
+
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
     String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
@@ -58,16 +56,16 @@ LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(
 List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
 List <Tessera> tessera= generaTesseraCasuale();
 boolean isAdmin=faker.bool().bool();
-return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,isAdmin);
+return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio,tessera,isAdmin);
     }
-*/
+
 
 
 
 
     //faker titolo di viaggio
 
-    /* private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
+     private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
             Utente utente,
             Tessera tessera,
             List<PuntoEmissione> puntiEmissione,
@@ -109,7 +107,7 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
     }
 
 
-*/
+
     //faker Tratta e AssegnazioneTratta
 
     private static Tratta generaTrattaCasuale() {
@@ -163,17 +161,6 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
         veicoloDAO.save(tram);
 
         System.out.println("✓ Salvati con JavaFaker:");
-        System.out.println("  - Autobus: " + autobus.getMarca() + " (capienza: " + autobus.getCapienza() + ", stato: " + autobus.getStatocondizione()+ ")");
-        System.out.println("  - Tram: " + tram.getMarca() + " (capienza: " + tram.getCapienza() + ", stato: " + tram.getStatocondizione()+ ")");
-        
-        // Esempio: genera multipli veicoli
-        System.out.println("\n✓ Generazione multipla:");
-        for (int i = 0; i < 5; i++) {
-            Veicolo bus = generaAutobusCasuale();
-            veicoloDAO.save(bus);
-            System.out.println("  - Autobus " + (i+1) + ": " + bus.getMarca());
-        }
-
 
 
         //  Genera tratta
