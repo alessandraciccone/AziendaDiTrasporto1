@@ -34,38 +34,13 @@ public class VeicoloDAO {
         return query.getResultList();
     }
 
-    //  CERCA veicoli per marca
-    public List<Veicolo> findByMarca(String marca) {
-        TypedQuery<Veicolo> query = entityManager.createQuery(
-                "SELECT v FROM Veicolo v WHERE v.Marca = :marca", Veicolo.class);
-        query.setParameter("marca", marca);
-        return query.getResultList();
-    }
-
-    // CERCA veicoli per tipo (AUTOBUS, TRAM, etc.)
-    public List<Veicolo> findByTipo(String tipoVeicolo) {
-        TypedQuery<Veicolo> query = entityManager.createQuery(
-                "SELECT v FROM Veicolo v WHERE v.tipoVeicolo = :tipo", Veicolo.class);
-        query.setParameter("tipo", tipoVeicolo);
-        return query.getResultList();
-    }
 
     // CERCA veicoli per stato condizione
     public List<Veicolo> findByStatoCondizione(String statoCondizione) {
         TypedQuery<Veicolo> query = entityManager.createQuery(
-                "SELECT v FROM Veicolo v WHERE v.statocondizione = :stato", Veicolo.class);
+                "SELECT v FROM Veicolo v WHERE v.statoCondizione = :stato", Veicolo.class);
         query.setParameter("stato", statoCondizione);
         return query.getResultList();
-    }
-
-    //  CERCA solo gli AUTOBUS
-    public List<Veicolo> findAutobus() {
-        return findByTipo("AUTOBUS");
-    }
-
-    //  CERCA solo i TRAM
-    public List<Veicolo> findTram() {
-        return findByTipo("TRAM");
     }
 
     //  CERCA veicoli in BUONE condizioni
@@ -91,7 +66,7 @@ public class VeicoloDAO {
         entityManager.getTransaction().begin();
         Veicolo veicolo = entityManager.find(Veicolo.class, veicoloId);
         if (veicolo != null) {
-            veicolo.setStatocondizione(nuovoStato);
+            veicolo.setStatoCondizione(nuovoStato);
             entityManager.merge(veicolo);
             System.out.println("Stato del veicolo aggiornato a: " + nuovoStato);
         }
@@ -136,31 +111,17 @@ public class VeicoloDAO {
         return query.getSingleResult();
     }
 
-    //  CONTA quanti autobus ci sono
-    public long countAutobus() {
-        TypedQuery<Long> query = entityManager.createQuery(
-                "SELECT COUNT(v) FROM Veicolo v WHERE v.tipoVeicolo = 'AUTOBUS'", Long.class);
-        return query.getSingleResult();
-    }
-
-    //  CONTA quanti tram ci sono
-    public long countTram() {
-        TypedQuery<Long> query = entityManager.createQuery(
-                "SELECT COUNT(v) FROM Veicolo v WHERE v.tipoVeicolo = 'TRAM'", Long.class);
-        return query.getSingleResult();
-    }
-
     //  CONTA quanti veicoli sono in buone condizioni
     public long countVeicoliInBuoneCondizioni() {
         TypedQuery<Long> query = entityManager.createQuery(
-                "SELECT COUNT(v) FROM Veicolo v WHERE v.statocondizione = 'BUONO'", Long.class);
+                "SELECT COUNT(v) FROM Veicolo v WHERE v.statoCondizione = 'BUONO'", Long.class);
         return query.getSingleResult();
     }
 
     //  CONTA quanti veicoli sono in manutenzione
     public long countVeicoliInManutenzione() {
         TypedQuery<Long> query = entityManager.createQuery(
-                "SELECT COUNT(v) FROM Veicolo v WHERE v.statocondizione = 'MANUTENZIONE'", Long.class);
+                "SELECT COUNT(v) FROM Veicolo v WHERE v.statoCondizione = 'MANUTENZIONE'", Long.class);
         return query.getSingleResult();
     }
 
@@ -173,6 +134,6 @@ public class VeicoloDAO {
     //  VERIFICA se un veicolo è in buone condizioni
     public boolean isInBuoneCondizioni(Long veicoloId) {
         Veicolo veicolo = findById(veicoloId);
-        return veicolo != null && "BUONO".equals(veicolo.getStatocondizione());
+        return veicolo != null && "BUONO".equals(veicolo.getStatoCondizione());
     }
 }

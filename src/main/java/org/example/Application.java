@@ -17,22 +17,58 @@ public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
     private static final Faker faker = new Faker(new Locale("it"));
 
-    // Metodi helper per generare veicoli casuali
-    private static Veicolo generaAutobusCasuale() {
-        String marca = faker.options().option("Mercedes", "Volvo", "Iveco", "Scania", "MAN", "Renault", "Fiat", "Setra", "Van Hool", "Irisbus");
-        int capienza = faker.number().numberBetween(40, 80);
-        String stato = faker.options().option("OK", "KO", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
-        return new Veicolo(marca, capienza, stato, "AUTOBUS");
+    // Metodo per generare un veicolo casuale
+    private static Veicolo generaVeicoloCasuale() {
+        // Genera tipo casuale (AUTOBUS o TRAM)
+        VeicoloType tipo = faker.options().option(VeicoloType.values());
+
+        // Genera capienza basata sul tipo
+        int capienza;
+        if (tipo == VeicoloType.AUTOBUS) {
+            capienza = faker.number().numberBetween(30, 80);
+        } else { // TRAM
+            capienza = faker.number().numberBetween(100, 250);
+        }
+
+        // Genera stato casuale
+        StatoCondizione statoCondizione = faker.options().option(StatoCondizione.values());
+
+        return new Veicolo(tipo, capienza, statoCondizione);
     }
 
-    private static Veicolo generaTramCasuale() {
-        String marca = faker.options().option("Siemens", "Bombardier", "Alstom", "AnsaldoBreda", "CAF", "Stadler", "Škoda");
-        int capienza = faker.number().numberBetween(100, 250);
-        String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
-        return new Veicolo(marca, capienza, stato, "TRAM");
+    public static void main(String[] args) {
+        EntityManager em = emf.createEntityManager();
+        VeicoloDAO veicoloDAO = new VeicoloDAO(em);
+
+        System.out.println("🚌 GENERAZIONE VEICOLI CASUALI 🚋");
+        System.out.println("================================\n");
+
+        // Genera e salva 15 veicoli casuali
+        System.out.println("Generazione di 15 veicoli casuali:");
+        for (int i = 1; i <= 15; i++) {
+            Veicolo veicolo = generaVeicoloCasuale();
+            veicoloDAO.save(veicolo);
+
+            System.out.println("   ✓ Veicolo " + i + ": " +
+                    "ID=" + veicolo.getIdVeicolo() +
+                    ", Tipo=" + veicolo.getTipo() +
+                    ", Capienza=" + veicolo.getCapienza() +
+                    ", Stato=" + veicolo.getStatoCondizione());
+        }
+
+        System.out.println("\n📊 STATISTICHE:");
+        System.out.println("   • Totale veicoli creati: 15");
+
+        em.close();
+        emf.close();
+        System.out.println("\n✅ Operazioni completate!");
     }
 
-//faker utente
+    //faker utente
+
+
+
+    //faker utente
 
     /*
     private static Utente generaUtenteCasuale() {
@@ -104,33 +140,9 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
 
 
 */
-    public static void main(String[] args) {
-        EntityManager em = emf.createEntityManager();
-        VeicoloDAO veicoloDAO = new VeicoloDAO(em);
-
-        // Genera veicoli casuali
-        Veicolo autobus = generaAutobusCasuale();
-        Veicolo tram = generaTramCasuale();
-
-        veicoloDAO.save(autobus);                 
-        veicoloDAO.save(tram);
-
-        System.out.println("✓ Salvati con JavaFaker:");
-        System.out.println("  - Autobus: " + autobus.getMarca() + " (capienza: " + autobus.getCapienza() + ", stato: " + autobus.getStatocondizione()+ ")");
-        System.out.println("  - Tram: " + tram.getMarca() + " (capienza: " + tram.getCapienza() + ", stato: " + tram.getStatocondizione()+ ")");
-        
-        // Esempio: genera multipli veicoli
-        System.out.println("\n✓ Generazione multipla:");
-        for (int i = 0; i < 5; i++) {
-            Veicolo bus = generaAutobusCasuale();
-            veicoloDAO.save(bus);
-            System.out.println("  - Autobus " + (i+1) + ": " + bus.getMarca());
-        }
 
 
 
-        System.out.println("Done");
-    }
 }
 
 
