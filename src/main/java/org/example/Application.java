@@ -39,7 +39,7 @@ public class Application {
 
 //faker utente
 
-    /*
+
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
     String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
@@ -59,14 +59,14 @@ List <Tessera> tessera= generaTesseraCasuale();
 boolean isAdmin=faker.bool().bool();
 return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,isAdmin);
     }
-*/
+
 
 
 
 
     //faker titolo di viaggio
 
-    /* private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
+     private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
             Utente utente,
             Tessera tessera,
             List<PuntoEmissione> puntiEmissione,
@@ -108,7 +108,7 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
     }
 
 
-*/
+
     //faker Tratta e AssegnazioneTratta
 
     private static Tratta generaTrattaCasuale() {
