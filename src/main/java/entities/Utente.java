@@ -15,10 +15,10 @@ public class Utente {
     @GeneratedValue
     private UUID idUtente;
 
-    private String Nome;
-    private String Cognome;
+    private String nome;
+    private String cognome;
     @Column(name = "data_di_nascita")
-    private LocalDate DataDiNascita;
+    private LocalDate dataDiNascita;
 
     @OneToMany(mappedBy = "utente")
     private List<Abbonamento> abbonamenti = new ArrayList<>();
@@ -29,9 +29,9 @@ public class Utente {
     public Utente(){};
     public Utente(String nome, String cognome, LocalDate dataDiNascita, List<Abbonamento> abbonamenti, List<Tessera> tessere) {
 
-        Nome = nome;
-        Cognome = cognome;
-        DataDiNascita = dataDiNascita;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.dataDiNascita = dataDiNascita;
         this.abbonamenti = abbonamenti;
         this.tessere = tessere;
 
@@ -42,29 +42,28 @@ public class Utente {
         return idUtente;
     }
 
-
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
     public String getCognome() {
-        return Cognome;
+        return cognome;
     }
 
     public void setCognome(String cognome) {
-        Cognome = cognome;
+        this.cognome = cognome;
     }
 
     public LocalDate getDataDiNascita() {
-        return DataDiNascita;
+        return dataDiNascita;
     }
 
     public void setDataDiNascita(LocalDate dataDiNascita) {
-        DataDiNascita = dataDiNascita;
+        this.dataDiNascita = dataDiNascita;
     }
 
     public List<Abbonamento> getAbbonamenti() {
@@ -83,15 +82,5 @@ public class Utente {
         this.tessere = tessere;
     }
 
-    @Override
-    public String toString() {
-        return "Utente{" +
-                "idUtente=" + idUtente +
-                ", Nome='" + Nome + '\'' +
-                ", Cognome='" + Cognome + '\'' +
-                ", DataDiNascita=" + DataDiNascita +
-                ", abbonamenti=" + abbonamenti +
-                ", tessere=" + tessere +
-                '}';
-    }
+
 }

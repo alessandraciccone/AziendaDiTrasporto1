@@ -11,7 +11,7 @@ import java.util.List;
 public class Distributore extends PuntoEmissione{
 
 
-
+    @Enumerated(EnumType.STRING)
     private DistributoreStato stato;
 
 

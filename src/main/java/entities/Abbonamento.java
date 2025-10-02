@@ -32,6 +32,10 @@ public class Abbonamento extends TitoloDiViaggio {
         return dataInizio;
     }
 
+    public void setDataFine(LocalDate dataFine) {
+        this.dataFine = dataFine;
+    }
+
     public void setDataInizio(LocalDate dataInizio) {
         this.dataInizio = dataInizio;
     }
@@ -40,9 +44,7 @@ public class Abbonamento extends TitoloDiViaggio {
         return dataFine;
     }
 
-    public void setDataFine(LocalDate dataFine) {
-        this.dataFine = dataFine;
-    }
+
 
     public Tessera getTessera() {
         return tessera;
