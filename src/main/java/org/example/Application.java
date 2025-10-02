@@ -7,7 +7,6 @@ import jakarta.persistence.Persistence;
 import entities.*;
 import dao.VeicoloDAO;
 import com.github.javafaker.Faker;
-
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
