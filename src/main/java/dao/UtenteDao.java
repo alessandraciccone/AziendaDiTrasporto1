@@ -66,6 +66,7 @@ public List<Utente> findAll(){
         return query.getResultList()
 ;    }
 
+
     //cerca utente non admin
     public  List<Utente> findNonAdminUsers(){
         TypedQuery<Utente> query=em.createQuery("SELECT u FROM Utente u WHERE u.admin = false", Utente.class);
