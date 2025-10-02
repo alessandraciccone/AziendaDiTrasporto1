@@ -47,6 +47,8 @@ public class Application {
         dataDiNascitaPossibile.add(LocalDate.of(1980, 8, 24));
         dataDiNascitaPossibile.add(LocalDate.of(1986, 11, 26));
         dataDiNascitaPossibile.add(LocalDate.of(2005, 1, 23));
+
+
         LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
 List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
 //List <Tessera> tessera= generaTesseraCasuale();
@@ -124,6 +126,8 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera)
             veicoloDAO.save(bus);
             System.out.println("  - Autobus " + (i+1) + ": " + bus.getMarca());
         }
+
+
 
         System.out.println("Done");
     }

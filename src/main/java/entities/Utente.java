@@ -20,6 +20,7 @@ public class Utente {
     private String Nome;
     private String Cognome;
     private LocalDate DataDiNascita;
+    private boolean isAdmin;
 
     @OneToMany(mappedBy = "utente")
     private List<Abbonamento> abbonamenti = new ArrayList<>();
@@ -28,11 +29,12 @@ public class Utente {
 
 
     public Utente(){};
-    public Utente(String nome, String cognome, LocalDate dataDiNascita, List<Abbonamento> abbonamenti, List<Tessera> tessere) {
+    public Utente(String nome, String cognome, LocalDate dataDiNascita,boolean isAdmin,  List<Abbonamento> abbonamenti, List<Tessera> tessere) {
 
         Nome = nome;
         Cognome = cognome;
         DataDiNascita = dataDiNascita;
+        this.isAdmin=isAdmin;
         this.abbonamenti = abbonamenti;
         this.tessere = tessere;
 
@@ -58,6 +60,14 @@ public class Utente {
 
     public void setCognome(String cognome) {
         Cognome = cognome;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public LocalDate getDataDiNascita() {
@@ -91,6 +101,7 @@ public class Utente {
                 ", Nome='" + Nome + '\'' +
                 ", Cognome='" + Cognome + '\'' +
                 ", DataDiNascita=" + DataDiNascita +
+                ", isAdmin=" + isAdmin +
                 ", abbonamenti=" + abbonamenti +
                 ", tessere=" + tessere +
                 '}';
