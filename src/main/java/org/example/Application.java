@@ -13,15 +13,14 @@ import dao.AssegnazioneTrattaDAO;
 import com.github.javafaker.Faker;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.time.LocalDateTime;
 
 
 public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
     private static final Faker faker = new Faker(new Locale("it"));
+    private static final Random random = new Random();
 
     // Metodi helper per generare veicoli casuali
     private static Veicolo generaAutobusCasuale() {
@@ -128,7 +127,23 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
     }
 
 
+    public static PuntoEmissione generaPuntoEmissione(){
 
+        String nome = faker.company().name();
+        String indirizzo = faker.address().fullAddress();
+
+        List<TitoloDiViaggio> titoliDiViaggioVuoti = Collections.emptyList();
+        if(random.nextBoolean()) {
+            DistributoreStato[] stati = DistributoreStato.values();
+            DistributoreStato statoCasuale = stati[random.nextInt(stati.length)];
+            return new Distributore(nome, indirizzo, titoliDiViaggioVuoti, statoCasuale);
+        }else{
+            RivenditoreType[] tipi = RivenditoreType.values();
+            RivenditoreType tipoCasuale = tipi[random.nextInt(tipi.length)];
+
+            return new Rivenditore(nome, indirizzo, titoliDiViaggioVuoti, tipoCasuale);
+        }
+    }
 
 
     public static void main(String[] args) {
@@ -178,6 +193,15 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
 
 
         System.out.println("Done");
+
+
+        //generare punto emissione
+        List<PuntoEmissione> listaPuntiEmissione = new ArrayList<>();
+        int numeroDaGenerare = 5;
+
+        for(int i= 0; i < numeroDaGenerare; i++){
+            listaPuntiEmissione.add(generaPuntoEmissione());
+        }
 
         em.close();
     }
