@@ -6,12 +6,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Persistence;
 import entities.*;
 import dao.VeicoloDAO;
+
+import dao.TrattaDAO;
+import dao.AssegnazioneTrattaDAO;
+
 import com.github.javafaker.Faker;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.time.LocalDateTime;
+
 
 public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
@@ -31,6 +37,7 @@ public class Application {
         String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
         return new Veicolo(marca, capienza, stato, "TRAM");
     }
+
 
 //faker utente
 
@@ -104,9 +111,34 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
 
 
 */
+    //faker Tratta e AssegnazioneTratta
+
+    private static Tratta generaTrattaCasuale() {
+        String zonaPartenza = faker.address().cityName();
+        String capolinea = faker.address().cityName();
+        int tempoPrevisto = faker.number().numberBetween(10, 60);
+        return new Tratta(zonaPartenza, capolinea, tempoPrevisto);
+    }
+
+    private static AssegnazioneTratta generaAssegnazioneCasuale(Tratta tratta, Veicolo veicolo) {
+        LocalDateTime inizio = LocalDateTime.now().minusDays(faker.number().numberBetween(1, 30));
+        int tempoEffettivo = tratta.getTempoPrevisto() + faker.number().numberBetween(-5, 10);
+        LocalDateTime fine = inizio.plusMinutes(tempoEffettivo);
+        return new AssegnazioneTratta(tratta, veicolo, inizio, fine, tempoEffettivo);
+    }
+
+
+
+
+
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
         VeicoloDAO veicoloDAO = new VeicoloDAO(em);
+
+
+        TrattaDAO trattaDAO = new TrattaDAO(em);
+        AssegnazioneTrattaDAO assegnazioneDAO = new AssegnazioneTrattaDAO(em);
+
 
         // Genera veicoli casuali
         Veicolo autobus = generaAutobusCasuale();
@@ -127,6 +159,22 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
             System.out.println("  - Autobus " + (i+1) + ": " + bus.getMarca());
         }
 
+
+
+        //  Genera tratta
+        Tratta tratta = generaTrattaCasuale();
+        trattaDAO.save(tratta);
+        System.out.println("✓ Tratta salvata: " + tratta.getZonaPartenza() + " → " + tratta.getCapolinea());
+
+        //  Genera assegnazioni
+        AssegnazioneTratta ass1 = generaAssegnazioneCasuale(tratta, autobus);
+        AssegnazioneTratta ass2 = generaAssegnazioneCasuale(tratta, tram);
+        assegnazioneDAO.save(ass1);
+        assegnazioneDAO.save(ass2);
+
+        System.out.println("✓ Assegnazioni salvate:");
+        System.out.println("  - " + ass1);
+        System.out.println("  - " + ass2);
 
 
         System.out.println("Done");
