@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(name = "titoli_di_viaggio")
 @Inheritance(strategy= InheritanceType.JOINED)
 public abstract class TitoloDiViaggio {
     @Id

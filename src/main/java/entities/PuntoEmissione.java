@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "punto_emissione")
+@Table(name = "punti_emissione")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class PuntoEmissione {
 

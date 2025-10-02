@@ -12,13 +12,13 @@ public class Tratta {
     @GeneratedValue
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(name = "zona_partenza", nullable = false)
     private String zonaPartenza;
 
     @Column(nullable = false)
     private String capolinea;
 
-    @Column(nullable=false)
+    @Column(name = "tempo_previsto", nullable=false)
     private int tempoPrevisto;          //in minuti
 
     @OneToMany(mappedBy = "tratta", cascade = CascadeType.ALL)
