@@ -1,5 +1,7 @@
 package org.example;
 
+import dao.AssegnazioneTrattaDAO;
+import dao.TrattaDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -40,60 +42,11 @@ public class Application {
         return new Veicolo(tipo, capienza, statoCondizione);
     }
 
-    public static void main(String[] args) {
-        EntityManager em = null;
-        
-        try {
-            em = emf.createEntityManager();
-            VeicoloDAO veicoloDAO = new VeicoloDAO(em);
 
-            System.out.println("     GENERAZIONE VEICOLI CASUALI");
-            System.out.println("=====================================");
-
-            // Genera e salva 15 veicoli casuali
-            int numeroVeicoli = 15;
-            System.out.println("📝 Generazione di " + numeroVeicoli + " veicoli casuali...\n");
-
-            for (int i = 1; i <= numeroVeicoli; i++) {
-                Veicolo veicolo = generaVeicoloCasuale();
-                veicoloDAO.save(veicolo);
-            }
-
-            System.out.println("\n   ✓ Veicoli totali generati: " + numeroVeicoli);
-            
-            // Verifica che i veicoli siano stati salvati
-            long count = veicoloDAO.countAll();
-            System.out.println("   📊 Veicoli nel database: " + count);
-            
-            // Mostra tutti i veicoli salvati
-            System.out.println("\n📋 ELENCO VEICOLI NEL DATABASE:");
-            System.out.println("=====================================");
-            List<Veicolo> veicoli = veicoloDAO.findAll();
-            for (int i = 0; i < veicoli.size(); i++) {
-                Veicolo v = veicoli.get(i);
-                System.out.println((i + 1) + ". " + v.getTipo() + 
-                                 " | Capienza: " + v.getCapienza() + 
-                                 " | Stato: " + v.getStatoCondizione());
-            }
-            
-        } catch (Exception e) {
-            System.err.println("❌ Errore durante l'esecuzione: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
-            if (emf != null && emf.isOpen()) {
-                emf.close();
-            }
-            System.out.println("\n✅ Operazioni completate!");
-        }
-    }
-}
 
 //faker utente
 
-/*
+
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
     String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
@@ -111,7 +64,7 @@ LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(
 List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
 List <Tessera> tessera= generaTesseraCasuale();
 boolean isAdmin=faker.bool().bool();
-return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
+return new Utente(nome,cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
     }
 
 
@@ -207,7 +160,7 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         Veicolo autobus = generaAutobusCasuale();
         Veicolo tram = generaTramCasuale();
 
-        veicoloDAO.save(autobus);                 
+        veicoloDAO.save(autobus);
         veicoloDAO.save(tram);
 
         System.out.println("✓ Salvati con JavaFaker:");
@@ -219,8 +172,8 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         System.out.println("✓ Tratta salvata: " + tratta.getZonaPartenza() + " → " + tratta.getCapolinea());
 
         //  Genera assegnazioni
-        AssegnazioneTratta ass1 = generaAssegnazioneCasuale(tratta, autobus);
-        AssegnazioneTratta ass2 = generaAssegnazioneCasuale(tratta, tram);
+        AssegnazioneTratta ass1 = generaAssegnazioneCasuale(tratta, VeicoloType.AUTOBUS,VeicoloType.TRAM);
+        AssegnazioneTratta ass2 = generaAssegnazioneCasuale(tratta, VeicoloType.TRAM,VeicoloType.AUTOBUS);
         assegnazioneDAO.save(ass1);
         assegnazioneDAO.save(ass2);
 
@@ -239,8 +192,54 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         for(int i= 0; i < numeroDaGenerare; i++){
             listaPuntiEmissione.add(generaPuntoEmissione());
         }
+        try {
+            em = emf.createEntityManager();
+            VeicoloDAO veicoloDAO = new VeicoloDAO(em);
 
+            System.out.println("     GENERAZIONE VEICOLI CASUALI");
+            System.out.println("=====================================");
+
+            // Genera e salva 15 veicoli casuali
+            int numeroVeicoli = 15;
+            System.out.println("📝 Generazione di " + numeroVeicoli + " veicoli casuali...\n");
+
+            for (int i = 1; i <= numeroVeicoli; i++) {
+                Veicolo veicolo = generaVeicoloCasuale();
+                veicoloDAO.save(veicolo);
+            }
+
+            System.out.println("\n   ✓ Veicoli totali generati: " + numeroVeicoli);
+
+            // Verifica che i veicoli siano stati salvati
+            long count = veicoloDAO.countAll();
+            System.out.println("   📊 Veicoli nel database: " + count);
+
+            // Mostra tutti i veicoli salvati
+            System.out.println("\n📋 ELENCO VEICOLI NEL DATABASE:");
+            System.out.println("=====================================");
+            List<Veicolo> veicoli = veicoloDAO.findAll();
+            for (int i = 0; i < veicoli.size(); i++) {
+                Veicolo v = veicoli.get(i);
+                System.out.println((i + 1) + ". " + v.getTipo() +
+                        " | Capienza: " + v.getCapienza() +
+                        " | Stato: " + v.getStatoCondizione());
+            }
+
+        } catch (Exception e) {
+            System.err.println("❌ Errore durante l'esecuzione: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+            if (emf != null && emf.isOpen()) {
+                emf.close();
+            }
+            System.out.println("\n✅ Operazioni completate!");
+        }
         em.close();
     }
 }
-     */
+
+
+
