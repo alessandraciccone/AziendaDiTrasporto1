@@ -16,7 +16,7 @@ public abstract class TitoloDiViaggio {
     @ManyToOne
     @JoinColumn(name ="id_punto_emissione")
     private PuntoEmissione puntoEmissione;
-    private Double costo;
+    //private Double costo;
     private String tipo;
     private LocalDate dataEmissione;
 
@@ -24,7 +24,6 @@ public abstract class TitoloDiViaggio {
 
     public TitoloDiViaggio(PuntoEmissione puntoEmissione, Double costo, String tipo, LocalDate dataEmissione) {
         this.puntoEmissione = puntoEmissione;
-        this.costo = costo;
         this.tipo = tipo;
         this.dataEmissione = dataEmissione;
     }
@@ -42,13 +41,13 @@ public abstract class TitoloDiViaggio {
         this.puntoEmissione = puntoEmissione;
     }
 
-    public Double getCosto() {
-        return costo;
-    }
+    //public Double getCosto() {
+        //return costo;
+    //}
 
-    public void setCosto(Double costo) {
-        this.costo = costo;
-    }
+    //public void setCosto(Double costo) {
+        //his.costo = costo;
+    //}
 
     public String getTipo() {
         return tipo;
@@ -71,7 +70,7 @@ public abstract class TitoloDiViaggio {
         return "TitoloDiViaggio{" +
                 "idTitoloDiViaggio=" + idTitoloDiViaggio +
                 ", puntoEmissione=" + puntoEmissione +
-                ", costo=" + costo +
+               // ", costo=" + costo +
                 ", tipo='" + tipo + '\'' +
                 ", dataEmissione=" + dataEmissione +
                 '}';

@@ -1,13 +1,11 @@
 package entities;
-
-
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "abbonamenti")
 public class Abbonamento extends TitoloDiViaggio {
+
 
     @Column(name = "data_inizio")
     private LocalDate dataInizio;
@@ -16,7 +14,8 @@ public class Abbonamento extends TitoloDiViaggio {
     @ManyToOne
     @JoinColumn(name = "fk_tessera")
     private Tessera tessera;
-
+    @Column(name="attivo")
+ private boolean attivo;
     public Abbonamento() {
     }
 
@@ -26,6 +25,7 @@ public class Abbonamento extends TitoloDiViaggio {
         this.dataInizio = dataInizio;
         this.dataFine = dataFine;
         this.tessera = tessera;
+        this.attivo=true;
     }
 
     public LocalDate getDataInizio() {
@@ -44,7 +44,13 @@ public class Abbonamento extends TitoloDiViaggio {
         return dataFine;
     }
 
+    public boolean isAttivo() {
+        return attivo;
+    }
 
+    public void setAttivo(boolean attivo) {
+        this.attivo = attivo;
+    }
 
     public Tessera getTessera() {
         return tessera;
@@ -60,6 +66,7 @@ public class Abbonamento extends TitoloDiViaggio {
                 "dataInizio=" + dataInizio +
                 ", dataFine=" + dataFine +
                 ", tessera=" + tessera +
+                ", attivo=" + attivo +
                 '}';
     }
 }

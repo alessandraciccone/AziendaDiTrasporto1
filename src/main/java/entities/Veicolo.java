@@ -17,9 +17,10 @@ public class Veicolo {
     @Enumerated(EnumType.STRING)
     private VeicoloType tipo;
     private int capienza;
+
     @Column(name = "stato_condizione")
     @Enumerated(EnumType.STRING)
-    private VeicoloStato statoCondizione;
+    private StatoCondizione statoCondizione;
 
     @OneToMany(mappedBy = "veicolo")
     private List<Manutenzione> manutenzioneList;
@@ -30,19 +31,21 @@ public class Veicolo {
     @OneToMany(mappedBy = "veicolo")
     private List<Biglietto> bigliettoList;
 
-    public Veicolo(){
-    }
-
-    public Veicolo(VeicoloType tipo, int capienza, VeicoloStato statoCondizione) {
+    // Costruttore completo
+    public Veicolo(VeicoloType tipo, int capienza, StatoCondizione statoCondizione) {
         this.tipo = tipo;
         this.capienza = capienza;
         this.statoCondizione = statoCondizione;
     }
+
+    // Costruttore vuoto
+    public Veicolo() {
+
+    }
+
     public UUID getIdVeicolo() {
         return idVeicolo;
     }
-
-
 
     public VeicoloType getTipo() {
         return tipo;
@@ -60,11 +63,11 @@ public class Veicolo {
         this.capienza = capienza;
     }
 
-    public VeicoloStato getStatoCondizione() {
+    public StatoCondizione getStatoCondizione() {
         return statoCondizione;
     }
 
-    public void setStatoCondizione(VeicoloStato statoCondizione) {
+    public void setStatoCondizione(StatoCondizione statoCondizione) {
         this.statoCondizione = statoCondizione;
     }
 
@@ -104,4 +107,5 @@ public class Veicolo {
                 ", bigliettoList=" + bigliettoList +
                 '}';
     }
+
 }
