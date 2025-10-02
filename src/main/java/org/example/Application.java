@@ -7,16 +7,11 @@ import entities.*;
 import dao.VeicoloDAO;
 
 import com.github.javafaker.Faker;
-<<<<<<< HEAD
-
-import java.util.List;
-import java.util.Locale;
-=======
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.*;
 import java.time.LocalDateTime;
->>>>>>> master
+
 
 
 public class Application {
@@ -98,7 +93,7 @@ public class Application {
 
 //faker utente
 
-
+/*
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
     String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
