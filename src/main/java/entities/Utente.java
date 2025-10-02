@@ -21,23 +21,16 @@ public class Utente {
     private LocalDate dataDiNascita;
 
     @OneToMany(mappedBy = "utente")
-    private List<Abbonamento> abbonamenti = new ArrayList<>();
-    @OneToMany(mappedBy = "utente")
     private List<Tessera> tessere = new ArrayList<>();
 
-
-    public Utente(){};
-    public Utente(String nome, String cognome, LocalDate dataDiNascita, List<Abbonamento> abbonamenti, List<Tessera> tessere) {
-
+    public Utente() {}
+    
+    public Utente(String nome, String cognome, LocalDate dataDiNascita) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataDiNascita = dataDiNascita;
-        this.abbonamenti = abbonamenti;
-        this.tessere = tessere;
-
-
-
     }
+
     public UUID getIdUtente() {
         return idUtente;
     }
@@ -66,14 +59,6 @@ public class Utente {
         this.dataDiNascita = dataDiNascita;
     }
 
-    public List<Abbonamento> getAbbonamenti() {
-        return abbonamenti;
-    }
-
-    public void setAbbonamenti(List<Abbonamento> abbonamenti) {
-        this.abbonamenti = abbonamenti;
-    }
-
     public List<Tessera> getTessere() {
         return tessere;
     }
@@ -82,5 +67,23 @@ public class Utente {
         this.tessere = tessere;
     }
 
+    // Metodo helper per ottenere tutti gli abbonamenti attraverso le tessere
+    public List<Abbonamento> getAllAbbonamenti() {
+        List<Abbonamento> tuttiAbbonamenti = new ArrayList<>();
+        for (Tessera tessera : tessere) {
+            tuttiAbbonamenti.addAll(tessera.getAbbonamenti());
+        }
+        return tuttiAbbonamenti;
+    }
 
+    @Override
+    public String toString() {
+        return "Utente{" +
+                "idUtente=" + idUtente +
+                ", nome='" + nome + '\'' +
+                ", cognome='" + cognome + '\'' +
+                ", dataDiNascita=" + dataDiNascita +
+                ", numeroTessere=" + tessere.size() +
+                '}';
+    }
 }
