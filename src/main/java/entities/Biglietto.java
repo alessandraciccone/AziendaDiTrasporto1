@@ -9,8 +9,10 @@ import java.time.LocalDate;
 public class Biglietto extends TitoloDiViaggio {
 
     @ManyToOne
-    @JoinColumn(name = "fk_veicolo")
+    @JoinColumn(name = "veicolo")
     private Veicolo veicolo;
+
+
 
     public Biglietto() {}
 

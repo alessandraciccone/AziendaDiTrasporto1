@@ -27,6 +27,9 @@ public class Veicolo {
     @OneToMany(mappedBy = "veicolo")
     private List<AssegnazioneTratta> assegnazioneTrattaList;
 
+    @OneToMany(mappedBy = "veicolo")
+    private List<Biglietto> bigliettoList;
+
     public Veicolo(){
     }
 
@@ -81,6 +84,14 @@ public class Veicolo {
         this.assegnazioneTrattaList = assegnazioneTrattaList;
     }
 
+    public List<Biglietto> getBigliettoList() {
+        return bigliettoList;
+    }
+
+    public void setBigliettoList(List<Biglietto> bigliettoList) {
+        this.bigliettoList = bigliettoList;
+    }
+
     @Override
     public String toString() {
         return "Veicolo{" +
@@ -90,6 +101,7 @@ public class Veicolo {
                 ", statoCondizione=" + statoCondizione +
                 ", manutenzioneList=" + manutenzioneList +
                 ", assegnazioneTrattaList=" + assegnazioneTrattaList +
+                ", bigliettoList=" + bigliettoList +
                 '}';
     }
 }
