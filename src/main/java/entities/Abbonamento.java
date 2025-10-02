@@ -1,78 +1,39 @@
 package entities;
+
+
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "abbonamenti")
-public class Abbonamento {
+public class Abbonamento extends TitoloDiViaggio {
 
-    public static CriteriaBuilder tipoAbbonamento;
-    @Id
-    @GeneratedValue
-    private UUID idAbbonamento;
-
-    @Enumerated(EnumType.STRING)
-    private TipoAbbonamento tipo;
-
+    @Column(name = "data_inizio")
     private LocalDate dataInizio;
+    @Column(name = "data_fine")
     private LocalDate dataFine;
-
-    private Double prezzo;
-
-    @Enumerated(EnumType.STRING)
-    private StatoAbbonamento stato;
-
     @ManyToOne
-    @JoinColumn(name = "id_tessera", nullable = false)
+    @JoinColumn(name = "fk_tessera")
     private Tessera tessera;
 
-    @ManyToOne
-    @JoinColumn(name = "id_utente", nullable = false)
-    private Utente utente;
-
-    // Enum per il tipo di abbonamento
-    public enum TipoAbbonamento {
-        MENSILE,
-        TRIMESTRALE,
-        SEMESTRALE,
-        ANNUALE
+    public Abbonamento() {
     }
 
-    // Enum per lo stato dell'abbonamento
-    public enum StatoAbbonamento {
-        ATTIVO,
-        SCADUTO,
-        SOSPESO
-    }
-
-    // Costruttori
-    public Abbonamento() {}
-
-    public Abbonamento(TipoAbbonamento tipo, LocalDate dataInizio, LocalDate dataFine, Double prezzo, Tessera tessera, Utente utente) {
-        this.tipo = tipo;
+    public Abbonamento(PuntoEmissione puntoEmissione, Double costo, String tipo,
+                       LocalDate dataEmissione, LocalDate dataInizio, LocalDate dataFine, Tessera tessera) {
+        super(puntoEmissione, costo, tipo, dataEmissione);
         this.dataInizio = dataInizio;
         this.dataFine = dataFine;
-        this.prezzo = prezzo;
         this.tessera = tessera;
-        this.utente = utente;
-        this.stato = StatoAbbonamento.ATTIVO;
-    }
-
-
-
-    public TipoAbbonamento getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoAbbonamento tipo) {
-        this.tipo = tipo;
     }
 
     public LocalDate getDataInizio() {
         return dataInizio;
+    }
+
+    public void setDataFine(LocalDate dataFine) {
+        this.dataFine = dataFine;
     }
 
     public void setDataInizio(LocalDate dataInizio) {
@@ -83,25 +44,7 @@ public class Abbonamento {
         return dataFine;
     }
 
-    public void setDataFine(LocalDate dataFine) {
-        this.dataFine = dataFine;
-    }
 
-    public Double getPrezzo() {
-        return prezzo;
-    }
-
-    public void setPrezzo(Double prezzo) {
-        this.prezzo = prezzo;
-    }
-
-    public StatoAbbonamento getStato() {
-        return stato;
-    }
-
-    public void setStato(StatoAbbonamento stato) {
-        this.stato = stato;
-    }
 
     public Tessera getTessera() {
         return tessera;
@@ -111,43 +54,12 @@ public class Abbonamento {
         this.tessera = tessera;
     }
 
-    public Utente getUtente() {
-        return utente;
-    }
-
-    public void setUtente(Utente utente) {
-        this.utente = utente;
-    }
-
-    // Metodi di utilità
-    public boolean isValido() {
-        LocalDate oggi = LocalDate.now();
-        return stato == StatoAbbonamento.ATTIVO &&
-                !oggi.isBefore(dataInizio) &&
-                !oggi.isAfter(dataFine);
-    }
-
-    public void verificaScadenza() {
-        if (LocalDate.now().isAfter(dataFine) && stato == StatoAbbonamento.ATTIVO) {
-            this.stato = StatoAbbonamento.SCADUTO;
-        }
-    }
-
-    public long giorniRimanenti() {
-        return LocalDate.now().datesUntil(dataFine).count();
-    }
-
     @Override
     public String toString() {
         return "Abbonamento{" +
-                "idAbbonamento=" + idAbbonamento +
-                ", tipo=" + tipo +
-                ", dataInizio=" + dataInizio +
+                "dataInizio=" + dataInizio +
                 ", dataFine=" + dataFine +
-                ", prezzo=" + prezzo +
-                ", stato=" + stato +
-                ", tessera=" + (tessera != null ? tessera.getNumeroTessera() : "null") +
-                ", utente=" + (utente != null ? utente.getNome() + " " + utente.getCognome() : "null") +
+                ", tessera=" + tessera +
                 '}';
     }
 }

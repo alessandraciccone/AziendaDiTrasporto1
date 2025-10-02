@@ -1,6 +1,8 @@
 package entities;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import entities.Veicolo;
@@ -23,17 +25,21 @@ public class AssegnazioneTratta {
     @JoinColumn(name = "mezzo_id", nullable = false)
     private Veicolo veicolo;
 
+    @Column(name = "data_inizio")
     private LocalDateTime dataInizio;
+    @Column(name = "data_fine")
     private LocalDateTime dataFine;
+    @Column(name = "tempo_effettivo")
     private int tempoEffettivo; // minuti effettivi
 
     // costruttori
     public AssegnazioneTratta() {}
 
-    public AssegnazioneTratta(Tratta tratta, Veicolo veicolo, LocalDateTime dataInizio, int tempoEffettivo) {
+    public AssegnazioneTratta(Tratta tratta, Veicolo veicolo, LocalDateTime dataInizio, LocalDateTime dataFine, int tempoEffettivo) {
         this.tratta = tratta;
         this.veicolo = veicolo;
         this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
         this.tempoEffettivo = tempoEffettivo;
     }
 

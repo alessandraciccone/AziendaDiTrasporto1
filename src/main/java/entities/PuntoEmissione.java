@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "punto_emissione")
+@Table(name = "punti_emissione")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class PuntoEmissione {
 
@@ -19,16 +19,17 @@ public class PuntoEmissione {
     private String indirizzo;
 
     @OneToMany(mappedBy = "puntoEmissione")
-    private List<TitoloDiViaggio> titoliDiViaggio;
+    private List<TitoloDiViaggio> titoloDiViaggio;
+
 
     public  PuntoEmissione(){}
 
 
-    public PuntoEmissione(  String nome, String indirizzo) {
+    public PuntoEmissione( String nome, String indirizzo, List<TitoloDiViaggio> titoloDiViaggio) {
 
         this.nome = nome;
         this.indirizzo = indirizzo;
-
+        this.titoloDiViaggio = titoloDiViaggio;
     }
 
     public UUID getIdPuntoEmissione() {
@@ -56,11 +57,14 @@ public class PuntoEmissione {
         this.indirizzo = indirizzo;
     }
 
-    public List<TitoloDiViaggio> getTitoliDiViaggio() {
-        return titoliDiViaggio;
-    }
 
-    public void setTitoliDiViaggio(List<TitoloDiViaggio> titoliDiViaggio) {
-        this.titoliDiViaggio = titoliDiViaggio;
+    @Override
+    public String toString() {
+        return "PuntoEmissione{" +
+                "idPuntoEmissione=" + idPuntoEmissione +
+                ", nome='" + nome + '\'' +
+                ", indirizzo='" + indirizzo + '\'' +
+                ", titoloDiViaggio=" + titoloDiViaggio +
+                '}';
     }
 }

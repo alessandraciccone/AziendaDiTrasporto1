@@ -1,9 +1,6 @@
 package entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,16 +8,17 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "utenti")
 public class Utente {
     @Id
 
     @GeneratedValue
     private UUID idUtente;
 
-    private String Nome;
-    private String Cognome;
-    private LocalDate DataDiNascita;
-    private boolean isAdmin;
+    private String nome;
+    private String cognome;
+    @Column(name = "data_di_nascita")
+    private LocalDate dataDiNascita;
 
     @OneToMany(mappedBy = "utente")
     private List<Abbonamento> abbonamenti = new ArrayList<>();
@@ -29,12 +27,11 @@ public class Utente {
 
 
     public Utente(){};
-    public Utente(String nome, String cognome, LocalDate dataDiNascita,boolean isAdmin,  List<Abbonamento> abbonamenti, List<Tessera> tessere) {
+    public Utente(String nome, String cognome, LocalDate dataDiNascita, List<Abbonamento> abbonamenti, List<Tessera> tessere) {
 
-        Nome = nome;
-        Cognome = cognome;
-        DataDiNascita = dataDiNascita;
-        this.isAdmin=isAdmin;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.dataDiNascita = dataDiNascita;
         this.abbonamenti = abbonamenti;
         this.tessere = tessere;
 
@@ -45,37 +42,28 @@ public class Utente {
         return idUtente;
     }
 
-
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
     public String getCognome() {
-        return Cognome;
+        return cognome;
     }
 
     public void setCognome(String cognome) {
-        Cognome = cognome;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+        this.cognome = cognome;
     }
 
     public LocalDate getDataDiNascita() {
-        return DataDiNascita;
+        return dataDiNascita;
     }
 
     public void setDataDiNascita(LocalDate dataDiNascita) {
-        DataDiNascita = dataDiNascita;
+        this.dataDiNascita = dataDiNascita;
     }
 
     public List<Abbonamento> getAbbonamenti() {
@@ -94,16 +82,5 @@ public class Utente {
         this.tessere = tessere;
     }
 
-    @Override
-    public String toString() {
-        return "Utente{" +
-                "idUtente=" + idUtente +
-                ", Nome='" + Nome + '\'' +
-                ", Cognome='" + Cognome + '\'' +
-                ", DataDiNascita=" + DataDiNascita +
-                ", isAdmin=" + isAdmin +
-                ", abbonamenti=" + abbonamenti +
-                ", tessere=" + tessere +
-                '}';
-    }
+
 }

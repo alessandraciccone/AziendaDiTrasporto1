@@ -2,52 +2,106 @@ package entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+import java.util.UUID;
+
 @Entity
 @Table(name = "veicoli")
+
+
 public class Veicolo {
     @Id
     @GeneratedValue
-    private Long idVeicolo;
-    private String Marca;
+    @Column(name = "id_veicolo")
+    private UUID idVeicolo;
+    @Enumerated(EnumType.STRING)
+    private VeicoloType tipo;
     private int capienza;
-    private String statocondizione;
-    private String tipoVeicolo; // AUTOBUS, TRAM, etc.
+    @Column(name = "stato_condizione")
+    @Enumerated(EnumType.STRING)
+    private VeicoloStato statoCondizione;
+
+    @OneToMany(mappedBy = "veicolo")
+    private List<Manutenzione> manutenzioneList;
+
+    @OneToMany(mappedBy = "veicolo")
+    private List<AssegnazioneTratta> assegnazioneTrattaList;
+
+    @OneToMany(mappedBy = "veicolo")
+    private List<Biglietto> bigliettoList;
 
     public Veicolo(){
     }
 
-    public Veicolo(String Marca, int capienza, String statocondizione, String tipoVeicolo) {
-        this.Marca = Marca;
+    public Veicolo(VeicoloType tipo, int capienza, VeicoloStato statoCondizione) {
+        this.tipo = tipo;
         this.capienza = capienza;
-        this.statocondizione = statocondizione;
-        this.tipoVeicolo = tipoVeicolo;
+        this.statoCondizione = statoCondizione;
     }
-    public Long getIdVeicolo() {
+    public UUID getIdVeicolo() {
         return idVeicolo;
     }
 
-    public String getMarca() {
-        return Marca;
+
+
+    public VeicoloType getTipo() {
+        return tipo;
     }
-    public void setMarca(String marca) {
-        this.Marca = marca;
+
+    public void setTipo(VeicoloType tipo) {
+        this.tipo = tipo;
     }
+
     public int getCapienza() {
         return capienza;
     }
+
     public void setCapienza(int capienza) {
         this.capienza = capienza;
     }
-    public String getStatocondizione() {
-        return statocondizione;
+
+    public VeicoloStato getStatoCondizione() {
+        return statoCondizione;
     }
-    public void setStatocondizione(String statocondizione) {
-        this.statocondizione = statocondizione;
+
+    public void setStatoCondizione(VeicoloStato statoCondizione) {
+        this.statoCondizione = statoCondizione;
     }
-    public String getTipoVeicolo() {
-        return tipoVeicolo;
+
+    public List<Manutenzione> getManutenzioneList() {
+        return manutenzioneList;
     }
-    public void setTipoVeicolo(String tipoVeicolo) {
-        this.tipoVeicolo = tipoVeicolo;
+
+    public void setManutenzioneList(List<Manutenzione> manutenzioneList) {
+        this.manutenzioneList = manutenzioneList;
+    }
+
+    public List<AssegnazioneTratta> getAssegnazioneTrattaList() {
+        return assegnazioneTrattaList;
+    }
+
+    public void setAssegnazioneTrattaList(List<AssegnazioneTratta> assegnazioneTrattaList) {
+        this.assegnazioneTrattaList = assegnazioneTrattaList;
+    }
+
+    public List<Biglietto> getBigliettoList() {
+        return bigliettoList;
+    }
+
+    public void setBigliettoList(List<Biglietto> bigliettoList) {
+        this.bigliettoList = bigliettoList;
+    }
+
+    @Override
+    public String toString() {
+        return "Veicolo{" +
+                "idVeicolo=" + idVeicolo +
+                ", tipo=" + tipo +
+                ", capienza=" + capienza +
+                ", statoCondizione=" + statoCondizione +
+                ", manutenzioneList=" + manutenzioneList +
+                ", assegnazioneTrattaList=" + assegnazioneTrattaList +
+                ", bigliettoList=" + bigliettoList +
+                '}';
     }
 }
