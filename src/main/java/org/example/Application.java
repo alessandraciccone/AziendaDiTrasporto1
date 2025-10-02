@@ -7,14 +7,22 @@ import entities.*;
 import dao.VeicoloDAO;
 
 import com.github.javafaker.Faker;
+<<<<<<< HEAD
 
 import java.util.List;
 import java.util.Locale;
+=======
+import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.util.*;
+import java.time.LocalDateTime;
+>>>>>>> master
 
 
 public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
     private static final Faker faker = new Faker(new Locale("it"));
+    private static final Random random = new Random();
 
     private static Veicolo generaVeicoloCasuale() {
         // Genera tipo casuale (AUTOBUS o TRAM)
@@ -90,7 +98,7 @@ public class Application {
 
 //faker utente
 
-    /*
+
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
     String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
@@ -108,16 +116,16 @@ LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(
 List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
 List <Tessera> tessera= generaTesseraCasuale();
 boolean isAdmin=faker.bool().bool();
-return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,isAdmin);
+return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
     }
-*/
+
 
 
 
 
     //faker titolo di viaggio
 
-    /* private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
+     private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
             Utente utente,
             Tessera tessera,
             List<PuntoEmissione> puntiEmissione,
@@ -134,23 +142,18 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
 
             if (eAbbonamento) {
                 Abbonamento abb = new Abbonamento();
-                abb.setTipo(faker.options().option(Abbonamento.TipoAbbonamento.values()));
                 LocalDate inizio = dataEmissione.minusDays(faker.number().numberBetween(0, 60));
                 LocalDate fine = inizio.plusDays(faker.number().numberBetween(30, 365));
                 abb.setDataInizio(inizio);
                 abb.setDataFine(fine);
-                abb.setPrezzo(costo);
-                abb.setStato(Abbonamento.StatoAbbonamento.ATTIVO);
+                abb.setTipo(faker.options().option("Mensile","Settimanale"));
                 abb.setTessera(tessera);
-                abb.setUtente(utente);
                 titoli.add (abb);
             } else {
                 Biglietto biglietto = new Biglietto();
                 biglietto.setVeicolo(faker.options().option(veicoli.toArray(new Veicolo[0])));
                 biglietto.setPuntoEmissione(punto);
                 biglietto.setDataEmissione(dataEmissione);
-                biglietto.setCosto(costo);
-                biglietto.setTipo(faker.options().option("Ordinario", "Ridotto", "Turistico"));
                 titoli.add(biglietto);
             }
         }
@@ -159,7 +162,7 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
     }
 
 
-*/
+
     //faker Tratta e AssegnazioneTratta
 
     /*private static Tratta generaTrattaCasuale() {
@@ -177,7 +180,23 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
     }
 
 
+    public static PuntoEmissione generaPuntoEmissione(){
 
+        String nome = faker.company().name();
+        String indirizzo = faker.address().fullAddress();
+
+        List<TitoloDiViaggio> titoliDiViaggioVuoti = Collections.emptyList();
+        if(random.nextBoolean()) {
+            DistributoreStato[] stati = DistributoreStato.values();
+            DistributoreStato statoCasuale = stati[random.nextInt(stati.length)];
+            return new Distributore(nome, indirizzo, titoliDiViaggioVuoti, statoCasuale);
+        }else{
+            RivenditoreType[] tipi = RivenditoreType.values();
+            RivenditoreType tipoCasuale = tipi[random.nextInt(tipi.length)];
+
+            return new Rivenditore(nome, indirizzo, titoliDiViaggioVuoti, tipoCasuale);
+        }
+    }
 
 
     public static void main(String[] args) {
@@ -199,8 +218,6 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
         System.out.println("✓ Salvati con JavaFaker:");
 
 
-
-
         //  Genera tratta
         Tratta tratta = generaTrattaCasuale();
         trattaDAO.save(tratta);
@@ -218,6 +235,15 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
 
 
         System.out.println("Done");
+
+
+        //generare punto emissione
+        List<PuntoEmissione> listaPuntiEmissione = new ArrayList<>();
+        int numeroDaGenerare = 5;
+
+        for(int i= 0; i < numeroDaGenerare; i++){
+            listaPuntiEmissione.add(generaPuntoEmissione());
+        }
 
         em.close();
     }
