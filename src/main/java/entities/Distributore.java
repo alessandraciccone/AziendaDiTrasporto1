@@ -3,16 +3,14 @@ package entities;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
+import java.util.List;
+
 
 @Entity
-@Table(name = "distributore")
+@Table(name = "distributori")
 public class Distributore extends PuntoEmissione{
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id_distributore")
-    private UUID idDistrubotore;
+
 
     private DistributoreStato stato;
 
@@ -23,15 +21,12 @@ public class Distributore extends PuntoEmissione{
 
     }
 
-    public Distributore(String nome, String indirizzo,  DistributoreStato stato) {
-        super(nome, indirizzo);
-
+    public Distributore(String nome, String indirizzo, List<TitoloDiViaggio> titoloDiViaggio, DistributoreStato stato) {
+        super(nome, indirizzo, titoloDiViaggio);
         this.stato = stato;
     }
 
-    public UUID getIdDistrubotore() {
-        return idDistrubotore;
-    }
+
 
 
 
@@ -41,5 +36,13 @@ public class Distributore extends PuntoEmissione{
 
     public void setStato(DistributoreStato stato) {
         this.stato = stato;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Distributore{" +
+                "stato=" + stato +
+                '}';
     }
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 @Entity
-@Table(name = "manutenzione")
+@Table(name = "manutenzioni")
 public class Manutenzione {
     @Id
     @GeneratedValue
@@ -58,5 +58,15 @@ public class Manutenzione {
 
     public void setVeicolo(Veicolo veicolo) {
         this.veicolo = veicolo;
+    }
+
+    @Override
+    public String toString() {
+        return "Manutenzione{" +
+                "idManutenzione=" + idManutenzione +
+                ", dataInizio=" + dataInizio +
+                ", dataFine=" + dataFine +
+                ", veicolo=" + veicolo +
+                '}';
     }
 }

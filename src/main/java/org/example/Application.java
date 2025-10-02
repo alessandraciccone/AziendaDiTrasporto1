@@ -1,11 +1,9 @@
 package org.example;
 
+import entities.Veicolo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import entities.*;
-import dao.AutobusDAO;
-import dao.TramDAO;
 import com.github.javafaker.Faker;
 import java.util.Locale;
 
@@ -13,46 +11,11 @@ public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
     private static final Faker faker = new Faker(new Locale("it"));
 
-    // Metodi helper per generare veicoli casuali
-    private static Autobus generaAutobusCasuale() {
-        String marca = faker.options().option("Mercedes", "Volvo", "Iveco", "Scania", "MAN", "Renault", "Fiat", "Setra", "Van Hool", "Irisbus");
-        int capienza = faker.number().numberBetween(40, 80);
-        String stato = faker.options().option("OK", "KO", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
-        return new Autobus(marca, capienza, stato);
-    }
 
-    private static Tram generaTramCasuale() {
-        String marca = faker.options().option("Siemens", "Bombardier", "Alstom", "AnsaldoBreda", "CAF", "Stadler", "Škoda");
-        int capienza = faker.number().numberBetween(100, 250);
-        String stato = faker.options().option("OK", "IN_MANUTENZIONE", "FUORI_SERVIZIO");
-        return new Tram(marca, capienza, stato);
-    }
 
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
-        AutobusDAO ad = new AutobusDAO(em);
-        TramDAO lad = new TramDAO(em);
 
-        // Genera veicoli casuali
-        Autobus autobus = generaAutobusCasuale();
-        Tram tram = generaTramCasuale();
-
-        ad.save(autobus);                 
-        lad.save(tram);
-
-        System.out.println("✓ Salvati con JavaFaker:");
-        System.out.println("  - Autobus: " + autobus.getMarca() + " (capienza: " + autobus.getCapienza() + ", stato: " + autobus.getStatocondizione()+ ")");
-        System.out.println("  - Tram: " + tram.getMarca() + " (capienza: " + tram.getCapienza() + ", stato: " + tram.getStatocondizione()+ ")");
-        
-        // Esempio: genera multipli veicoli
-        System.out.println("\n✓ Generazione multipla:");
-        for (int i = 0; i < 5; i++) {
-            Autobus bus = generaAutobusCasuale();
-            ad.save(bus);
-            System.out.println("  - Autobus " + (i+1) + ": " + bus.getMarca());
-        }
-
-        System.out.println("Done");
     }
 }
 

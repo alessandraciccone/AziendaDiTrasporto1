@@ -1,9 +1,6 @@
 package entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -11,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "utenti")
 public class Utente {
     @Id
 
@@ -19,6 +17,7 @@ public class Utente {
 
     private String Nome;
     private String Cognome;
+    @Column(name = "data_di_nascita")
     private LocalDate DataDiNascita;
 
     @OneToMany(mappedBy = "utente")

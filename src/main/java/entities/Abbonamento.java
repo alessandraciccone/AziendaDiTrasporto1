@@ -1,48 +1,51 @@
 package entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "abbonamenti")
+public class Abbonamento extends TitoloDiViaggio {
 
-public class Abbonamento extends TitoloDiViaggio{
-
-    private LocalDate DataInizio;
-    private LocalDate DataFine;
+    @Column(name = "data_inizio")
+    private LocalDate dataInizio;
+    @Column(name = "data_fine")
+    private LocalDate dataFine;
     @ManyToOne
-    @JoinColumn(name="fk_tessera")
+    @JoinColumn(name = "fk_tessera")
     private Tessera tessera;
-    public Abbonamento(){}
+
+    public Abbonamento() {
+    }
+
     public Abbonamento(PuntoEmissione puntoEmissione, Double costo, String tipo,
                        LocalDate dataEmissione, LocalDate dataInizio, LocalDate dataFine, Tessera tessera) {
         super(puntoEmissione, costo, tipo, dataEmissione);
-        this.DataInizio = dataInizio;
-        this.DataFine = dataFine;
+        this.dataInizio = dataInizio;
+        this.dataFine = dataFine;
         this.tessera = tessera;
     }
 
     public LocalDate getDataInizio() {
-        return DataInizio;
+        return dataInizio;
+    }
+
+    public void setDataInizio(LocalDate dataInizio) {
+        this.dataInizio = dataInizio;
     }
 
     public LocalDate getDataFine() {
-        return DataFine;
+        return dataFine;
+    }
+
+    public void setDataFine(LocalDate dataFine) {
+        this.dataFine = dataFine;
     }
 
     public Tessera getTessera() {
         return tessera;
-    }
-
-    public void setDataInizio(LocalDate dataInizio) {
-        DataInizio = dataInizio;
-    }
-
-    public void setDataFine(LocalDate dataFine) {
-        DataFine = dataFine;
     }
 
     public void setTessera(Tessera tessera) {
@@ -52,10 +55,9 @@ public class Abbonamento extends TitoloDiViaggio{
     @Override
     public String toString() {
         return "Abbonamento{" +
-                "DataInizio=" + DataInizio +
-                ", DataFine=" + DataFine +
+                "dataInizio=" + dataInizio +
+                ", dataFine=" + dataFine +
                 ", tessera=" + tessera +
-                ", Id_Titolo_Di_Viaggio=" + Id_Titolo_Di_Viaggio +
                 '}';
     }
 }

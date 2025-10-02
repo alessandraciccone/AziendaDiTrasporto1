@@ -25,11 +25,11 @@ public class PuntoEmissione {
     public  PuntoEmissione(){}
 
 
-    public PuntoEmissione(  String nome, String indirizzo) {
+    public PuntoEmissione( String nome, String indirizzo, List<TitoloDiViaggio> titoloDiViaggio) {
 
         this.nome = nome;
         this.indirizzo = indirizzo;
-
+        this.titoloDiViaggio = titoloDiViaggio;
     }
 
     public UUID getIdPuntoEmissione() {
@@ -58,5 +58,13 @@ public class PuntoEmissione {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "PuntoEmissione{" +
+                "idPuntoEmissione=" + idPuntoEmissione +
+                ", nome='" + nome + '\'' +
+                ", indirizzo='" + indirizzo + '\'' +
+                ", titoloDiViaggio=" + titoloDiViaggio +
+                '}';
+    }
 }

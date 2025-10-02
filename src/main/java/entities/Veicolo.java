@@ -3,18 +3,23 @@ package entities;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "veicoli")
-@Inheritance(strategy = InheritanceType.JOINED)
 
-public abstract class Veicolo {
+
+public class Veicolo {
     @Id
     @GeneratedValue
-    private Long idVeicolo;
-    private String Marca;
+    @Column(name = "id_veicolo")
+    private UUID idVeicolo;
+    @Enumerated(EnumType.STRING)
+    private VeicoloType tipo;
     private int capienza;
-    private String statocondizione;
+    @Column(name = "stato_condizione")
+    @Enumerated(EnumType.STRING)
+    private VeicoloStato statoCondizione;
 
     @OneToMany(mappedBy = "veicolo")
     private List<Manutenzione> manutenzioneList;
@@ -25,31 +30,66 @@ public abstract class Veicolo {
     public Veicolo(){
     }
 
-    public Veicolo(String Marca, int capienza, String statocondizione) {
-        this.Marca = Marca;
+    public Veicolo(VeicoloType tipo, int capienza, VeicoloStato statoCondizione) {
+        this.tipo = tipo;
         this.capienza = capienza;
-        this.statocondizione = statocondizione;
+        this.statoCondizione = statoCondizione;
     }
-    public Long getIdVeicolo() {
+    public UUID getIdVeicolo() {
         return idVeicolo;
     }
 
-    public String getMarca() {
-        return Marca;
+
+
+    public VeicoloType getTipo() {
+        return tipo;
     }
-    public void setMarca(String marca) {
-        this.Marca = marca;
+
+    public void setTipo(VeicoloType tipo) {
+        this.tipo = tipo;
     }
+
     public int getCapienza() {
         return capienza;
     }
+
     public void setCapienza(int capienza) {
         this.capienza = capienza;
     }
-    public String getStatocondizione() {
-        return statocondizione;
+
+    public VeicoloStato getStatoCondizione() {
+        return statoCondizione;
     }
-    public void setStatocondizione(String statocondizione) {
-        this.statocondizione = statocondizione;
+
+    public void setStatoCondizione(VeicoloStato statoCondizione) {
+        this.statoCondizione = statoCondizione;
+    }
+
+    public List<Manutenzione> getManutenzioneList() {
+        return manutenzioneList;
+    }
+
+    public void setManutenzioneList(List<Manutenzione> manutenzioneList) {
+        this.manutenzioneList = manutenzioneList;
+    }
+
+    public List<AssegnazioneTratta> getAssegnazioneTrattaList() {
+        return assegnazioneTrattaList;
+    }
+
+    public void setAssegnazioneTrattaList(List<AssegnazioneTratta> assegnazioneTrattaList) {
+        this.assegnazioneTrattaList = assegnazioneTrattaList;
+    }
+
+    @Override
+    public String toString() {
+        return "Veicolo{" +
+                "idVeicolo=" + idVeicolo +
+                ", tipo=" + tipo +
+                ", capienza=" + capienza +
+                ", statoCondizione=" + statoCondizione +
+                ", manutenzioneList=" + manutenzioneList +
+                ", assegnazioneTrattaList=" + assegnazioneTrattaList +
+                '}';
     }
 }

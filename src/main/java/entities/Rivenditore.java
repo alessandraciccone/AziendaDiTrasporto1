@@ -3,35 +3,28 @@ package entities;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
+import java.util.List;
+
 
 @Entity
-@Table(name = "rivenditore")
+@Table(name = "rivenditori")
 public class Rivenditore extends PuntoEmissione{
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id_rivenditore")
-    private UUID idRivenditore;
+
 
     @Column(name = "punto_vendita")
+    @Enumerated(EnumType.STRING)
     private RivenditoreType puntoVendita;
 
     public Rivenditore() {
 
     }
 
-    public Rivenditore(String nome, String indirizzo,  RivenditoreType puntoVendita) {
-        super(nome, indirizzo);
 
+    public Rivenditore(String nome, String indirizzo, List<TitoloDiViaggio> titoloDiViaggio, RivenditoreType puntoVendita) {
+        super(nome, indirizzo, titoloDiViaggio);
         this.puntoVendita = puntoVendita;
     }
-
-    public UUID getIdRivenditore() {
-        return idRivenditore;
-    }
-
-
 
     public RivenditoreType getPuntoVendita() {
         return puntoVendita;
@@ -39,5 +32,12 @@ public class Rivenditore extends PuntoEmissione{
 
     public void setPuntoVendita(RivenditoreType puntoVendita) {
         this.puntoVendita = puntoVendita;
+    }
+
+    @Override
+    public String toString() {
+        return "Rivenditore{" +
+                "puntoVendita=" + puntoVendita +
+                '}';
     }
 }
