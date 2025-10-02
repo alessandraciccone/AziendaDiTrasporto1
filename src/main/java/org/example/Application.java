@@ -56,7 +56,7 @@ LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(
 List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
 List <Tessera> tessera= generaTesseraCasuale();
 boolean isAdmin=faker.bool().bool();
-return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio,tessera,isAdmin);
+return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
     }
 
 
@@ -82,15 +82,12 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio,tessera,i
 
             if (eAbbonamento) {
                 Abbonamento abb = new Abbonamento();
-                abb.setTipo(faker.options().option(Abbonamento.TipoAbbonamento.values()));
                 LocalDate inizio = dataEmissione.minusDays(faker.number().numberBetween(0, 60));
                 LocalDate fine = inizio.plusDays(faker.number().numberBetween(30, 365));
                 abb.setDataInizio(inizio);
                 abb.setDataFine(fine);
-                abb.setPrezzo(costo);
-                abb.setStato(Abbonamento.StatoAbbonamento.ATTIVO);
+                abb.setTipo(faker.options().option("Mensile","Settimanale"));
                 abb.setTessera(tessera);
-                abb.setUtente(utente);
                 titoli.add (abb);
             } else {
                 Biglietto biglietto = new Biglietto();
@@ -98,7 +95,6 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio,tessera,i
                 biglietto.setPuntoEmissione(punto);
                 biglietto.setDataEmissione(dataEmissione);
                 biglietto.setCosto(costo);
-                biglietto.setTipo(faker.options().option("Ordinario", "Ridotto", "Turistico"));
                 titoli.add(biglietto);
             }
         }
