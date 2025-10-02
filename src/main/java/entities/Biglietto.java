@@ -5,11 +5,14 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "titoli_di_viaggio")
 public class Biglietto extends TitoloDiViaggio {
 
     @ManyToOne
-    @JoinColumn(name = "fk_veicolo")
+    @JoinColumn(name = "veicolo")
     private Veicolo veicolo;
+
+
 
     public Biglietto() {}
 
@@ -29,11 +32,7 @@ public class Biglietto extends TitoloDiViaggio {
     @Override
     public String toString() {
         return "Biglietto{" +
-                "idTitoloDiViaggio=" + getId_Titolo_Di_Viaggio() +
-                ", veicolo=" + veicolo +
-                ", costo=" + getCosto() +
-                ", tipo='" + getTipo() + '\'' +
-                ", dataEmissione=" + getDataEmissione() +
+                "veicolo=" + veicolo +
                 '}';
     }
 }

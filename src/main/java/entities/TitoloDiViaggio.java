@@ -7,11 +7,12 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(name = "titoli_di_viaggio")
 @Inheritance(strategy= InheritanceType.JOINED)
 public abstract class TitoloDiViaggio {
     @Id
     @GeneratedValue
-    UUID Id_Titolo_Di_Viaggio;
+    private UUID idTitoloDiViaggio;
     @ManyToOne
     @JoinColumn(name ="id_punto_emissione")
     private PuntoEmissione puntoEmissione;
@@ -28,8 +29,8 @@ public abstract class TitoloDiViaggio {
         this.dataEmissione = dataEmissione;
     }
 
-    public UUID getId_Titolo_Di_Viaggio() {
-        return Id_Titolo_Di_Viaggio;
+    public UUID getIdTitoloDiViaggio() {
+        return idTitoloDiViaggio;
     }
 
 
@@ -68,7 +69,7 @@ public abstract class TitoloDiViaggio {
     @Override
     public String toString() {
         return "TitoloDiViaggio{" +
-                "Id_Titolo_Di_Viaggio=" + Id_Titolo_Di_Viaggio +
+                "idTitoloDiViaggio=" + idTitoloDiViaggio +
                 ", puntoEmissione=" + puntoEmissione +
                 ", costo=" + costo +
                 ", tipo='" + tipo + '\'' +
