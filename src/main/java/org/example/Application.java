@@ -34,6 +34,8 @@ public class Application {
     }
 
 //faker utente
+
+    /*
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
     String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
@@ -79,7 +81,7 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio);//tesser
                 abb.setStato(Abbonamento.StatoAbbonamento.ATTIVO);
                 abb.setTessera(tessera);
                 abb.setUtente(utente);
-                titoli.add(abb);
+                titoli.add (abb);
             } else {
                 Biglietto biglietto = new Biglietto();
                 biglietto.setVeicolo(faker.options().option(veicoli.toArray(new Veicolo[0])));
@@ -94,6 +96,8 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio);//tesser
         return titoli;
     }
 
+
+*/
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
         VeicoloDAO veicoloDAO = new VeicoloDAO(em);
