@@ -13,7 +13,6 @@ import java.util.*;
 import java.time.LocalDateTime;
 
 
-
 public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
     private static final Faker faker = new Faker(new Locale("it"));
@@ -93,10 +92,10 @@ public class Application {
 
 //faker utente
 
-/*
+
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
-    String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
+        String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
         List<LocalDate> dataDiNascitaPossibile = new ArrayList<>();
         dataDiNascitaPossibile.add(LocalDate.of(1993, 12, 14));
         dataDiNascitaPossibile.add(LocalDate.of(2000, 6, 1));
@@ -160,7 +159,7 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
 
     //faker Tratta e AssegnazioneTratta
 
-    /*private static Tratta generaTrattaCasuale() {
+    private static Tratta generaTrattaCasuale() {
         String zonaPartenza = faker.address().cityName();
         String capolinea = faker.address().cityName();
         int tempoPrevisto = faker.number().numberBetween(10, 60);
@@ -243,4 +242,3 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         em.close();
     }
 }
-     */
