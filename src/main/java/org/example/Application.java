@@ -14,86 +14,9 @@ import java.time.LocalDateTime;
 
 
 
-public class Application {
-    public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
-    private static final Faker faker = new Faker(new Locale("it"));
-    private static final Random random = new Random();
-
-    private static Veicolo generaVeicoloCasuale() {
-        // Genera tipo casuale (AUTOBUS o TRAM)
-        VeicoloType tipo = faker.options().option(VeicoloType.values());
-
-        // Genera capienza basata sul tipo
-        int capienza;
-        if (tipo == VeicoloType.AUTOBUS) {
-            // Gli autobus hanno capienza tra 30 e 80 passeggeri
-            capienza = faker.number().numberBetween(30, 80);
-        } else {
-            // I tram hanno capienza maggiore tra 100 e 250 passeggeri
-            capienza = faker.number().numberBetween(100, 250);
-        }
-
-        // Genera stato casuale tra BUONO, MANUTENZIONE, FUORI_SERVIZIO
-        StatoCondizione statoCondizione = faker.options().option(StatoCondizione.values());
-
-        // Crea e restituisce il veicolo
-        return new Veicolo(tipo, capienza, statoCondizione);
-    }
-
-    public static void main(String[] args) {
-        EntityManager em = null;
-        
-        try {
-            em = emf.createEntityManager();
-            VeicoloDAO veicoloDAO = new VeicoloDAO(em);
-
-            System.out.println("     GENERAZIONE VEICOLI CASUALI");
-            System.out.println("=====================================");
-
-            // Genera e salva 15 veicoli casuali
-            int numeroVeicoli = 15;
-            System.out.println("📝 Generazione di " + numeroVeicoli + " veicoli casuali...\n");
-
-            for (int i = 1; i <= numeroVeicoli; i++) {
-                Veicolo veicolo = generaVeicoloCasuale();
-                veicoloDAO.save(veicolo);
-            }
-
-            System.out.println("\n   ✓ Veicoli totali generati: " + numeroVeicoli);
-            
-            // Verifica che i veicoli siano stati salvati
-            long count = veicoloDAO.countAll();
-            System.out.println("   📊 Veicoli nel database: " + count);
-            
-            // Mostra tutti i veicoli salvati
-            System.out.println("\n📋 ELENCO VEICOLI NEL DATABASE:");
-            System.out.println("=====================================");
-            List<Veicolo> veicoli = veicoloDAO.findAll();
-            for (int i = 0; i < veicoli.size(); i++) {
-                Veicolo v = veicoli.get(i);
-                System.out.println((i + 1) + ". " + v.getTipo() + 
-                                 " | Capienza: " + v.getCapienza() + 
-                                 " | Stato: " + v.getStatoCondizione());
-            }
-            
-        } catch (Exception e) {
-            System.err.println("❌ Errore durante l'esecuzione: " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
-            }
-            if (emf != null && emf.isOpen()) {
-                emf.close();
-            }
-            System.out.println("\n✅ Operazioni completate!");
-        }
-    }
-}
-
 //faker utente
 
-/*
+
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
     String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
@@ -160,7 +83,7 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
 
     //faker Tratta e AssegnazioneTratta
 
-    /*private static Tratta generaTrattaCasuale() {
+    private static Tratta generaTrattaCasuale() {
         String zonaPartenza = faker.address().cityName();
         String capolinea = faker.address().cityName();
         int tempoPrevisto = faker.number().numberBetween(10, 60);
@@ -194,53 +117,6 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
     }
 
 
-    public static void main(String[] args) {
-        EntityManager em = emf.createEntityManager();
-        VeicoloDAO veicoloDAO = new VeicoloDAO(em);
 
-
-        TrattaDAO trattaDAO = new TrattaDAO(em);
-        AssegnazioneTrattaDAO assegnazioneDAO = new AssegnazioneTrattaDAO(em);
-
-
-        // Genera veicoli casuali
-        Veicolo autobus = generaAutobusCasuale();
-        Veicolo tram = generaTramCasuale();
-
-        veicoloDAO.save(autobus);                 
-        veicoloDAO.save(tram);
-
-        System.out.println("✓ Salvati con JavaFaker:");
-
-
-        //  Genera tratta
-        Tratta tratta = generaTrattaCasuale();
-        trattaDAO.save(tratta);
-        System.out.println("✓ Tratta salvata: " + tratta.getZonaPartenza() + " → " + tratta.getCapolinea());
-
-        //  Genera assegnazioni
-        AssegnazioneTratta ass1 = generaAssegnazioneCasuale(tratta, autobus);
-        AssegnazioneTratta ass2 = generaAssegnazioneCasuale(tratta, tram);
-        assegnazioneDAO.save(ass1);
-        assegnazioneDAO.save(ass2);
-
-        System.out.println("✓ Assegnazioni salvate:");
-        System.out.println("  - " + ass1);
-        System.out.println("  - " + ass2);
-
-
-        System.out.println("Done");
-
-
-        //generare punto emissione
-        List<PuntoEmissione> listaPuntiEmissione = new ArrayList<>();
-        int numeroDaGenerare = 5;
-
-        for(int i= 0; i < numeroDaGenerare; i++){
-            listaPuntiEmissione.add(generaPuntoEmissione());
-        }
-
-        em.close();
-    }
 }
-     */
+
