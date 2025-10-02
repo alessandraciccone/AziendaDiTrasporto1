@@ -17,7 +17,7 @@ public class Veicolo {
     @Enumerated(EnumType.STRING)
     private VeicoloType tipo;
     private int capienza;
-    
+
     @Column(name = "stato_condizione")
     @Enumerated(EnumType.STRING)
     private StatoCondizione statoCondizione;
@@ -32,13 +32,17 @@ public class Veicolo {
     private List<Biglietto> bigliettoList;
 
     // Costruttore completo
-    public Veicolo(VeicoloType tipo, int capienza, StatoCondizione statoCondizione){
+    public Veicolo(VeicoloType tipo, int capienza, StatoCondizione statoCondizione) {
         this.tipo = tipo;
         this.capienza = capienza;
         this.statoCondizione = statoCondizione;
     }
 
     // Costruttore vuoto
+    public Veicolo(int capienza, String stato, String autobus) {
+
+    }
+
     public Veicolo() {
 
     }
@@ -107,4 +111,5 @@ public class Veicolo {
                 ", bigliettoList=" + bigliettoList +
                 '}';
     }
+
 }
