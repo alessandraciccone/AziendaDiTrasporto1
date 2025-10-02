@@ -39,28 +39,33 @@ public class Application {
 //faker utente
 
 
-    private static Utente generaUtenteCasuale() {
+    private static Utente generaUtenteCasuale(
+            List<PuntoEmissione> puntiEmissione,
+            List<Veicolo> veicoli
+    ) {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
-    String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
-        List<LocalDate> dataDiNascitaPossibile = new ArrayList<>();
-        dataDiNascitaPossibile.add(LocalDate.of(1993, 12, 14));
-        dataDiNascitaPossibile.add(LocalDate.of(2000, 6, 1));
-        dataDiNascitaPossibile.add(LocalDate.of(1996, 10, 4));
-        dataDiNascitaPossibile.add(LocalDate.of(1957, 12, 6));
-        dataDiNascitaPossibile.add(LocalDate.of(1980, 8, 24));
-        dataDiNascitaPossibile.add(LocalDate.of(1986, 11, 26));
-        dataDiNascitaPossibile.add(LocalDate.of(2005, 1, 23));
+        String cognome = faker.options().option("Rossi", "Bianchi", "Marino", "Clemente", "Di Marzio", "Massimi", "Sassi");
 
+        LocalDate dataDiNascita = faker.options().option(
+                LocalDate.of(1993, 12, 14),
+                LocalDate.of(2000, 6, 1),
+                LocalDate.of(1996, 10, 4),
+                LocalDate.of(1957, 12, 6),
+                LocalDate.of(1980, 8, 24),
+                LocalDate.of(1986, 11, 26),
+                LocalDate.of(2005, 1, 23)
+        );
 
-LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
-List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
-List <Tessera> tessera= generaTesseraCasuale();
-boolean isAdmin=faker.bool().bool();
-return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
+        boolean isAdmin = faker.bool().bool();
+        List<Tessera> tessere = generaTesseraCasuale();
+        Tessera tessera = tessere.get(0);
+
+        Utente utente = new Utente(nome, cognome, dataDiNascita, new ArrayList<>(), tessere, isAdmin);
+
+        List<TitoloDiViaggio> titoli = generaTitoloDiViaggioCasuale(utente, tessera, puntiEmissione, veicoli);
+        utente.setTitoliDiViaggio(titoli);
+        return utente;
     }
-
-
-
 
 
     //faker titolo di viaggio
@@ -88,6 +93,9 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
                 abb.setDataFine(fine);
                 abb.setTipo(faker.options().option("Mensile","Settimanale"));
                 abb.setTessera(tessera);
+                abb.setAttivo(true);
+                abb.setPuntoEmissione(punto);
+                abb.setDataEmissione(dataEmissione);
                 titoli.add (abb);
             } else {
                 Biglietto biglietto = new Biglietto();
