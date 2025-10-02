@@ -25,5 +25,7 @@ public class VeicoloDAO {
     public Veicolo findById(Long id) {
         return entityManager.find(Veicolo.class, id);
     }
+
+
 }
 
