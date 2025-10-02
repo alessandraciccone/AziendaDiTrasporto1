@@ -130,6 +130,8 @@ return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera,
 
 
         System.out.println("Done");
+
+        em.close();
     }
 }
 
