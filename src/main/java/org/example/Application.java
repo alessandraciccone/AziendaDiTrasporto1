@@ -50,12 +50,16 @@ public class Application {
         LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
 List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
 //List <Tessera> tessera= generaTesseraCasuale();
-return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggio);//tessera);
+return new Utente(nome, cognome,dataDiNascitaPossibile,titoloDiViaggiot,tessera);
     }
+*/
+
+
+
 
     //faker titolo di viaggio
 
-    private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
+    /* private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
             Utente utente,
             Tessera tessera,
             List<PuntoEmissione> puntiEmissione,
