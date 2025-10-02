@@ -14,8 +14,6 @@ import java.time.LocalDate;
 import java.util.*;
 import java.time.LocalDateTime;
 
-
-
 public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
     private static final Faker faker = new Faker(new Locale("it"));
@@ -42,14 +40,12 @@ public class Application {
         return new Veicolo(tipo, capienza, statoCondizione);
     }
 
-
-
-//faker utente
-
+    // faker utente
 
     private static Utente generaUtenteCasuale() {
         String nome = faker.options().option("Michele", "Giulia", "Mattia", "Chiara", "Valentina", "Diego", "Giada");
-    String cognome=faker.options().option("Rossi","Bianchi","Marino","Clemente","Di Marzio","Massimi","Sassi");
+        String cognome = faker.options().option("Rossi", "Bianchi", "Marino", "Clemente", "Di Marzio", "Massimi",
+                "Sassi");
         List<LocalDate> dataDiNascitaPossibile = new ArrayList<>();
         dataDiNascitaPossibile.add(LocalDate.of(1993, 12, 14));
         dataDiNascitaPossibile.add(LocalDate.of(2000, 6, 1));
@@ -59,26 +55,20 @@ public class Application {
         dataDiNascitaPossibile.add(LocalDate.of(1986, 11, 26));
         dataDiNascitaPossibile.add(LocalDate.of(2005, 1, 23));
 
-
-LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
-List <TitoloDiViaggio> titoloDiViaggio= generaTitoloDiViaggioCasuale();
-List <Tessera> tessera= generaTesseraCasuale();
-boolean isAdmin=faker.bool().bool();
-return new Utente(nome,cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
+        LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
+        List<TitoloDiViaggio> titoloDiViaggio = generaTitoloDiViaggioCasuale();
+        List<Tessera> tessera = generaTesseraCasuale();
+        boolean isAdmin = faker.bool().bool();
+        return new Utente(nome, cognome, dataDiNascita, titoloDiViaggio, tessera, isAdmin);
     }
 
+    // faker titolo di viaggio
 
-
-
-
-    //faker titolo di viaggio
-
-     private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
+    private static List<TitoloDiViaggio> generaTitoloDiViaggioCasuale(
             Utente utente,
             Tessera tessera,
             List<PuntoEmissione> puntiEmissione,
-            List<Veicolo> veicoli
-    ) {
+            List<Veicolo> veicoli) {
         List<TitoloDiViaggio> titoli = new ArrayList<>();
         int num = faker.number().numberBetween(1, 7);
 
@@ -94,9 +84,9 @@ return new Utente(nome,cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
                 LocalDate fine = inizio.plusDays(faker.number().numberBetween(30, 365));
                 abb.setDataInizio(inizio);
                 abb.setDataFine(fine);
-                abb.setTipo(faker.options().option("Mensile","Settimanale"));
+                abb.setTipo(faker.options().option("Mensile", "Settimanale"));
                 abb.setTessera(tessera);
-                titoli.add (abb);
+                titoli.add(abb);
             } else {
                 Biglietto biglietto = new Biglietto();
                 biglietto.setVeicolo(faker.options().option(veicoli.toArray(new Veicolo[0])));
@@ -109,9 +99,7 @@ return new Utente(nome,cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         return titoli;
     }
 
-
-
-    //faker Tratta e AssegnazioneTratta
+    // faker Tratta e AssegnazioneTratta
 
     private static Tratta generaTrattaCasuale() {
         String zonaPartenza = faker.address().streetAddress();
@@ -127,25 +115,23 @@ return new Utente(nome,cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         return new AssegnazioneTratta(tratta, veicolo, inizio, fine, tempoEffettivo);
     }
 
-
-    public static PuntoEmissione generaPuntoEmissione(){
+    public static PuntoEmissione generaPuntoEmissione() {
 
         String nome = faker.company().name();
         String indirizzo = faker.address().fullAddress();
 
         List<TitoloDiViaggio> titoliDiViaggioVuoti = Collections.emptyList();
-        if(random.nextBoolean()) {
+        if (random.nextBoolean()) {
             DistributoreStato[] stati = DistributoreStato.values();
             DistributoreStato statoCasuale = stati[random.nextInt(stati.length)];
             return new Distributore(nome, indirizzo, titoliDiViaggioVuoti, statoCasuale);
-        }else{
+        } else {
             RivenditoreType[] tipi = RivenditoreType.values();
             RivenditoreType tipoCasuale = tipi[random.nextInt(tipi.length)];
 
             return new Rivenditore(nome, indirizzo, titoliDiViaggioVuoti, tipoCasuale);
         }
     }
-
 
     public static void main(String[] args) {
         EntityManager em = emf.createEntityManager();
@@ -239,7 +225,3 @@ return new Utente(nome,cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
         }
         em.close();
     }
-}
-
-
-
