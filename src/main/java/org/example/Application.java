@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import entities.*;
 import dao.VeicoloDAO;
+
 import com.github.javafaker.Faker;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -241,5 +242,5 @@ return new Utente(nome, cognome,dataDiNascita,titoloDiViaggio,tessera,isAdmin);
 
         em.close();
     }
-}
-     */
+
+
