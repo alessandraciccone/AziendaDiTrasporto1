@@ -1,5 +1,6 @@
 package org.example;
 
+import com.github.javafaker.DateAndTime;
 import dao.AssegnazioneTrattaDAO;
 import dao.TrattaDAO;
 import jakarta.persistence.EntityManager;
@@ -11,8 +12,10 @@ import dao.VeicoloDAO;
 import com.github.javafaker.Faker;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
@@ -56,10 +59,15 @@ public class Application {
         dataDiNascitaPossibile.add(LocalDate.of(2005, 1, 23));
 
         LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
-
-        List<Tessera> tessera = generaTesseraCasuale();
         boolean isAdmin = faker.bool().bool();
-        return new Utente(nome, cognome, dataDiNascita, tessera, isAdmin);
+Utente utente= new Utente(nome, cognome,dataDiNascita);
+        utente.setIsAdmin(isAdmin);
+
+        List<Tessera> tessera = generaTesseraCasuale(utente);
+        utente.setTessere(tessera);
+
+
+        return utente;
     }
 
     // faker titolo di viaggio
@@ -98,6 +106,27 @@ public class Application {
 
         return titoli;
     }
+
+
+    //faker generaTesseraCasuale
+private static List <Tessera> generaTesseraCasuale(Utente utente){
+        List <Tessera> tessere= new ArrayList<>();
+        int nTessere= faker.number().numberBetween(1,7);
+        for (int i=0; i< nTessere; i++){
+            String nTessera= UUID.randomUUID().toString();
+            LocalDate dataEmissione= faker.date()
+            .past(365*7, TimeUnit.DAYS)
+                    .toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            LocalDate dataScadenza = dataEmissione.plusYears(faker.number().numberBetween(1,7));
+            Tessera tessera = new Tessera(nTessera, dataEmissione, dataScadenza,utente);
+            tessera.setStato(faker.options().option(Tessera.StatoTessera.values()));
+            tessere.add(tessera);
+        }
+            return tessere;
+        }
+
 
     // faker Tratta e AssegnazioneTratta
 

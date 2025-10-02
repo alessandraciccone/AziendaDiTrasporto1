@@ -37,12 +37,23 @@ private boolean isAdmin;
     public Utente(String nome, String cognome, LocalDate dataDiNascita, List<TitoloDiViaggio> titoloDiViaggio, List<Tessera> tessera, boolean isAdmin) {
     }
 
+    public Utente(String nome, String cognome, LocalDate dataDiNascita) {
+    }
+
     public UUID getIdUtente() {
         return idUtente;
     }
 
     public String getNome() {
         return nome;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
     public void setNome(String nome) {
@@ -91,5 +102,8 @@ private boolean isAdmin;
                 ", tessere=" + tessere +
                 ", isAdmin=" + isAdmin +
                 '}';
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
     }
 }
