@@ -21,14 +21,20 @@ public class Utente {
     private LocalDate dataDiNascita;
 
     @OneToMany(mappedBy = "utente")
-    private List<Tessera> tessere = new ArrayList<>();
+private List<Tessera> tessere = new ArrayList<>();
+@Column(name="is_admin")
+private boolean isAdmin;
 
     public Utente() {}
     
-    public Utente(String nome, String cognome, LocalDate dataDiNascita) {
+    public Utente(String nome, String cognome, LocalDate dataDiNascita, boolean isAdmin) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataDiNascita = dataDiNascita;
+        this.isAdmin=isAdmin;
+    }
+
+    public Utente(String nome, String cognome, LocalDate dataDiNascita, List<TitoloDiViaggio> titoloDiViaggio, List<Tessera> tessera, boolean isAdmin) {
     }
 
     public UUID getIdUtente() {
@@ -67,7 +73,6 @@ public class Utente {
         this.tessere = tessere;
     }
 
-    // Metodo helper per ottenere tutti gli abbonamenti attraverso le tessere
     public List<Abbonamento> getAllAbbonamenti() {
         List<Abbonamento> tuttiAbbonamenti = new ArrayList<>();
         for (Tessera tessera : tessere) {
@@ -83,7 +88,8 @@ public class Utente {
                 ", nome='" + nome + '\'' +
                 ", cognome='" + cognome + '\'' +
                 ", dataDiNascita=" + dataDiNascita +
-                ", numeroTessere=" + tessere.size() +
+                ", tessere=" + tessere +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 }

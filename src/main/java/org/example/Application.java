@@ -56,10 +56,10 @@ public class Application {
         dataDiNascitaPossibile.add(LocalDate.of(2005, 1, 23));
 
         LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
-        List<TitoloDiViaggio> titoloDiViaggio = generaTitoloDiViaggioCasuale();
+
         List<Tessera> tessera = generaTesseraCasuale();
         boolean isAdmin = faker.bool().bool();
-        return new Utente(nome, cognome, dataDiNascita, titoloDiViaggio, tessera, isAdmin);
+        return new Utente(nome, cognome, dataDiNascita, tessera, isAdmin);
     }
 
     // faker titolo di viaggio
