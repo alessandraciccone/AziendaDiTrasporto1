@@ -89,7 +89,7 @@ public class PuntoEmissioneDAO {
     // trova i distributori attivi
     public List<Distributore> findAllActive(){
         TypedQuery<Distributore> query = em.createQuery("SELECT d FROM Distributore d WHERE d.stato = :attivo", Distributore.class);
-        query.setParameter("stato",DistributoreStato.ATTIVO);
+        query.setParameter("attivo", DistributoreStato.ATTIVO);
         return query.getResultList();
     }
 
@@ -101,7 +101,13 @@ public class PuntoEmissioneDAO {
 
     }
 
-
+    public List<PuntoEmissione> findAll() {
+        TypedQuery<PuntoEmissione> query = em.createQuery(
+            "SELECT p FROM PuntoEmissione p", 
+            PuntoEmissione.class
+        );
+        return query.getResultList();
+    }
 }
 
 

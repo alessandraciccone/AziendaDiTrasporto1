@@ -64,22 +64,49 @@ public class Application {
         PuntoEmissioneDAO pd = new PuntoEmissioneDAO(em);
 
         int numeroDaGenerare =10;
+        List<PuntoEmissione> puntiEmissioneList = new ArrayList<>();
 
         for (int i = 0; i < numeroDaGenerare; i++) {
             PuntoEmissione puntoEmissione= generaPuntoEmissione();
             pd.save(puntoEmissione);
+            puntiEmissioneList.add(puntoEmissione);
         }
 
         //genera utenti
 
         UtenteDao ud = new UtenteDao(em);
+        TesseraDAO tesseraDAO = new TesseraDAO(em);
+        TitoloDiViaggioDao titoloDAO = new TitoloDiViaggioDao(em);
+        
         int numeroDiPersoneCreate = 20;
+
+        // Prima genera punti emissione e veicoli (già fatto sopra)
+        puntiEmissioneList = pd.findAll();
+        List<Veicolo> veicoliList = veicoloDAO.findAll();
 
         for (int i = 0; i < numeroDiPersoneCreate; i++) {
             Utente utente = generaUtenteCasuale();
             ud.save(utente);
-
+            
+            // Salva anche le tessere dell'utente
+            for (Tessera tessera : utente.getTessere()) {
+                tesseraDAO.save(tessera);
+                
+                // Genera e salva titoli di viaggio per ogni tessera
+                List<TitoloDiViaggio> titoli = generaTitoloDiViaggioCasuale(
+                    utente, 
+                    tessera, 
+                    puntiEmissioneList, 
+                    veicoliList
+                );
+                
+                for (TitoloDiViaggio titolo : titoli) {
+                    titoloDAO.save(titolo);
+                }
+            }
         }
+        
+        System.out.println("✓ Generati utenti con tessere e titoli di viaggio");
 
 
         try {
@@ -192,22 +219,60 @@ public class Application {
             boolean eAbbonamento = faker.bool().bool();
             PuntoEmissione punto = faker.options().option(puntiEmissione.toArray(new PuntoEmissione[0]));
             LocalDate dataEmissione = LocalDate.now().minusDays(faker.number().numberBetween(1, 90));
-            double costo = faker.number().randomDouble(1, 50, 300);
 
             if (eAbbonamento) {
                 Abbonamento abb = new Abbonamento();
-                LocalDate inizio = dataEmissione.minusDays(faker.number().numberBetween(0, 60));
-                LocalDate fine = inizio.plusDays(faker.number().numberBetween(30, 365));
+                
+                // Scegli tipo di abbonamento casualmente
+                String tipoAbbonamento = faker.options().option("Settimanale", "Mensile", "Annuale");
+                double costo;
+                LocalDate inizio = dataEmissione.plusDays(faker.number().numberBetween(0, 7));
+                LocalDate fine;
+                
+                // Imposta costo e durata in base al tipo
+                switch (tipoAbbonamento) {
+                    case "Settimanale":
+                        costo = 15.0;
+                        fine = inizio.plusDays(7);
+                        break;
+                    case "Mensile":
+                        costo = 50.0;
+                        fine = inizio.plusMonths(1);
+                        break;
+                    case "Annuale":
+                        costo = 500.0;
+                        fine = inizio.plusYears(1);
+                        break;
+                    default:
+                        costo = 50.0;
+                        fine = inizio.plusMonths(1);
+                }
+            
                 abb.setDataInizio(inizio);
                 abb.setDataFine(fine);
-                abb.setTipo(faker.options().option("Mensile", "Settimanale"));
+                abb.setTipo(tipoAbbonamento);
                 abb.setTessera(tessera);
+                abb.setPuntoEmissione(punto);
+                abb.setDataEmissione(dataEmissione);
+                abb.setCosto(costo);
+            
                 titoli.add(abb);
             } else {
                 Biglietto biglietto = new Biglietto();
+                double costoBiglietto = 1.5; 
+                
                 biglietto.setVeicolo(faker.options().option(veicoli.toArray(new Veicolo[0])));
                 biglietto.setPuntoEmissione(punto);
                 biglietto.setDataEmissione(dataEmissione);
+                biglietto.setCosto(costoBiglietto);
+                biglietto.setTipo("Biglietto");
+            
+                // Vidimazione casuale (50% dei biglietti sono vidimati)
+                if (faker.bool().bool()) {
+                    LocalDate dataVidimazione = dataEmissione.plusDays(faker.number().numberBetween(0, 30));
+                    biglietto.setDataVidimazione(dataVidimazione);
+                }
+            
                 titoli.add(biglietto);
             }
         }
