@@ -49,7 +49,7 @@ public class AssegnazioneTrattaDAO {
 
     public Double tempoMedioByTratta(UUID trattaId) {
         TypedQuery<Double> query =
-                em.createQuery("SELECT AVG(a.tempoEffettivo) FROM AssegnazioneTratta a WHERE a.tratta.idTratta = :trattaId", Double.class);
+                em.createQuery("SELECT AVG(a.tempoEffettivo) FROM AssegnazioneTratta a WHERE a.tratta.id = :trattaId", Double.class);
         query.setParameter("trattaId", trattaId);
         return query.getSingleResult();
     }

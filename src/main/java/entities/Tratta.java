@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Tratta {
     @Id
     @GeneratedValue
+    @Column(name = "tratta_id")
     private UUID id;
 
     @Column(name = "zona_partenza", nullable = false)
