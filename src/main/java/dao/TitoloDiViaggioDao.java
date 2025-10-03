@@ -38,7 +38,7 @@ public class TitoloDiViaggioDao {
 
     //ricerca biglietto x data di emiussioine
 
-    public List <Biglietto> findByDataEmissione(UUID data){
+    public List <Biglietto> findByDataEmissione(LocalDate data){
         TypedQuery<Biglietto> query =em.createQuery("SELECT b FROM Biglietto b WHERE b.dataEmissione = :data", Biglietto.class);
         query.setParameter("data",data);
         return query.getResultList();

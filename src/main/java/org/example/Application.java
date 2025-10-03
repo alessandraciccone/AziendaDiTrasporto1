@@ -201,7 +201,7 @@ scanner.nextLine();
 boolean continua=true;
 while(continua){
     if(ruolo==1){
-        System.out.println("Manù Utente");
+        System.out.println("Menù Utente");
         System.out.println("1 Visualizza le tratte disponibili");
         System.out.println("2 Visualizza i tuoi biglietti");
         System.out.println("3 Visualizza i tuoi abbonamenti");
@@ -210,7 +210,7 @@ while(continua){
     else{
         System.out.println("Menù Admin");
         System.out.println("1 Visualizza biglietti emessi in una certa data");
-        System.out.println(" 2 Visualizza biglietti emessi in un preciso punto vendita");
+        System.out.println("2 Visualizza biglietti emessi in un preciso veicolo");
         System.out.println("3 Genera Veicoli");
         System.out.println("4 Genera Manutenzioni");
         System.out.println("5 Genera tratte e assegnazioni");
@@ -238,19 +238,46 @@ while(continua){
                 }
                 break;
 
-            case 2: //utente vede i suoi biglietti
+            case 2: ////utente vede biglietti emessi in certa data
+
                 if(ruolo==1) {
-                    titoloDAO.findAllTitoli().forEach(System.out::println);
+                    System.out.println("Inserisci la data(yyyy-MM-dd): ");
+                    LocalDate data= LocalDate.parse(scanner.nextLine());
+                    titoloDAO.findByDataEmissione(data).forEach(System.out::println);
                 }
                 else {
-                    //admin vede biglietti emessi in punto vendita
-                    System.out.println("Inserisci id punto emissione");
-                    UUID puntoId = UUID.fromString(scanner.nextLine());
-                    titoloDAO.findByDataEmissione(puntoId).forEach(System.out::println);
+                    //admin vede biglietti associati a un veicolo
+                    System.out.println("Inserisci id veicolo");
+                    UUID VeicoloId = UUID.fromString(scanner.nextLine());
+                    titoloDAO.findByVeicoilo(VeicoloId).forEach(System.out::println);
                 }
-                break;;
+                break;
 
-                
+            case 3: // utente vede i suoi abbonamenti
+                 if(ruolo==1){
+
+
+                 }
+                 else{
+                     //admin genera veicoli
+                     System.out.println("Genera Veicoli");
+                     System.out.println("1 Autobus");
+                     System.out.println("2 Tram");
+
+                     int tipo = scanner.nextInt();
+                     scanner.nextLine();
+
+                     System.out.println("Inserisci capienza:");
+                     int capienza = scanner.nextInt();
+                     scanner.nextLine();
+Veicolo veicolo= null;
+
+switch(tipo){
+    case 1:
+        veicolo = new Autobus(capienza);
+
+}
+                 }
         }
 
     }
