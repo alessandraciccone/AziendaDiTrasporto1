@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import entities.*;
-
 import com.github.javafaker.Faker;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -55,8 +54,6 @@ public class Application {
         System.out.println("✓ Assegnazioni salvate:");
         System.out.println("  - " + ass1);
         System.out.println("  - " + ass2);
-
-
         System.out.println("Done");
 
 
@@ -130,6 +127,7 @@ public class Application {
 
     }
 
+
     private static Veicolo generaVeicoloCasuale() {
         // Genera tipo casuale (AUTOBUS o TRAM)
         VeicoloType tipo = faker.options().option(VeicoloType.values());
@@ -150,6 +148,8 @@ public class Application {
         // Crea e restituisce il veicolo
         return new Veicolo(tipo, capienza, statoCondizione);
     }
+
+
 
     // faker utente
 
