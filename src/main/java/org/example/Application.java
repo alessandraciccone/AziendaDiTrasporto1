@@ -168,8 +168,8 @@ public class Application {
 
         LocalDate dataDiNascita = faker.options().option(dataDiNascitaPossibile.toArray(new LocalDate[0]));
         boolean isAdmin = faker.bool().bool();
-        Utente utente= new Utente(nome, cognome,dataDiNascita);
-        utente.setIsAdmin(isAdmin);
+        Utente utente= new Utente(nome, cognome,dataDiNascita, isAdmin);
+
 
         List<Tessera> tessera = generaTesseraCasuale(utente);
         utente.setTessere(tessera);

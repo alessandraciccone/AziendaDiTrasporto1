@@ -20,7 +20,7 @@ public class Utente {
     @Column(name = "data_di_nascita")
     private LocalDate dataDiNascita;
 
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(mappedBy = "utente" , cascade = CascadeType.ALL)
 private List<Tessera> tessere = new ArrayList<>();
 @Column(name="is_admin")
 private boolean isAdmin;
@@ -48,9 +48,7 @@ private boolean isAdmin;
         return nome;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
+
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
