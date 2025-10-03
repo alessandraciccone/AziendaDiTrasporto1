@@ -88,4 +88,10 @@ public class TitoloDiViaggioDao {
         em.remove(em.contains(titoloDiViaggio)? titoloDiViaggio:em.merge(titoloDiViaggio));
         em.getTransaction().commit();
     }
+    // ricerca di tutti gli abbonamenti tramite id utente
+    public List<Abbonamento> findByUtenteId(UUID idUtente){
+        TypedQuery query = em.createQuery("SELECT a FROM Abbonamento a WHERE a.tessera.utente.idUtente = :idUtente", Abbonamento.class);
+        query.setParameter("idUtente", idUtente);
+        return query.getResultList();
+    }
 }
