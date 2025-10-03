@@ -12,7 +12,6 @@ public class DataGenerator {
 
     private final Faker faker;
     private final Random random;
-
     public DataGenerator(Faker faker) {
         this.faker = faker;
         this.random = new Random();
@@ -40,6 +39,8 @@ public class DataGenerator {
         return new Veicolo(tipo, capienza, statoCondizione);
     }
 
+
+
     // faker utente
 
     public  Utente generaUtenteCasuale() {
@@ -66,6 +67,7 @@ public class DataGenerator {
 
         return utente;
     }
+
 
     // faker titolo di viaggio
 
@@ -125,6 +127,16 @@ public class DataGenerator {
     }
 
 
+
+    //faker manutenzione
+
+    public Manutenzione generaManutezioneCasuale(Veicolo veicolo ){
+        LocalDate DataDiInizio=LocalDate.now().minusDays(faker.number().numberBetween(1,30));
+
+        LocalDate DataDiFine= LocalDate.now().plusDays(faker.number().numberBetween(1,30));
+
+        return new Manutenzione(DataDiInizio, DataDiFine, veicolo) ;
+    }
     // faker Tratta e AssegnazioneTratta
 
     public  Tratta generaTrattaCasuale() {
