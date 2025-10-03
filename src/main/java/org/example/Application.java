@@ -28,7 +28,7 @@ public class Application {
         DataGenerator generator = new DataGenerator(faker);
         VeicoloDAO veicoloDAO = new VeicoloDAO(em);
         TrattaDAO trattaDAO = new TrattaDAO(em);
-        ManutenzioneDAO manutenzioneDAO=new ManutenzioneDAO(em);
+        ManutenzioneDAO manutenzioneDAO = new ManutenzioneDAO(em);
         AssegnazioneTrattaDAO assegnazioneDAO = new AssegnazioneTrattaDAO(em);
         UtenteDao ud = new UtenteDao(em);
         TesseraDAO tesseraDAO = new TesseraDAO(em);
@@ -48,23 +48,23 @@ public class Application {
                 System.out.println(" Salvati con JavaFaker:");
 
                 //genera manutenzione
-List <Manutenzione> manutenzioni =new ArrayList<>();
-manutenzioni.add(generator.generaManutezioneCasuale(autobus));
-manutenzioni.add(generator.generaManutezioneCasuale(autobus));
-manutenzioni.add(generator.generaManutezioneCasuale(tram));
-manutenzioni.add(generator.generaManutezioneCasuale(tram));
+                List<Manutenzione> manutenzioni = new ArrayList<>();
+                manutenzioni.add(generator.generaManutezioneCasuale(autobus));
+                manutenzioni.add(generator.generaManutezioneCasuale(autobus));
+                manutenzioni.add(generator.generaManutezioneCasuale(tram));
+                manutenzioni.add(generator.generaManutezioneCasuale(tram));
 
-for(Manutenzione m: manutenzioni) {
-    manutenzioneDAO.save(m);
-}
+                for (Manutenzione m : manutenzioni) {
+                    manutenzioneDAO.save(m);
+                }
 
                 System.out.println("Manutenzioni generate");
-for(Manutenzione m: manutenzioni){
-    System.out.println("Veicolo: "+ m.getVeicolo().getTipo() +
-            ", Inizio: " + m.getDataInizio() +
-            ", Fine: " + m.getDataFine());
+                for (Manutenzione m : manutenzioni) {
+                    System.out.println("Veicolo: " + m.getVeicolo().getTipo() +
+                            ", Inizio: " + m.getDataInizio() +
+                            ", Fine: " + m.getDataFine());
 
-}
+                }
 //generatore tratta
 
                 Tratta tratta = generator.generaTrattaCasuale();
@@ -149,7 +149,6 @@ for(Manutenzione m: manutenzioni){
 
 
             try {
-
                 VeicoloDAO vd = new VeicoloDAO(em);
 
                 System.out.println("     GENERAZIONE VEICOLI CASUALI");
@@ -181,97 +180,108 @@ for(Manutenzione m: manutenzioni){
                             " | Stato: " + v.getStatoCondizione());
                 }
 
-            } catch (Exception e) {
-                System.err.println("❌ Errore durante l'esecuzione: " + e.getMessage());
-                e.printStackTrace();
-            }
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("Seleziona:  ");
+                System.out.println("1 Utente");
+                System.out.println("2 Admin");
 
+                int ruolo = scanner.nextInt();
+                scanner.nextLine();
 
-        } catch (Exception e) {
-            System.err.println("Errore durante l'esecuzione: " + e.getMessage());
-
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Seleziona:  ");
-            System.out.println("1 Utente");
-            System.out.println("2 Admin");
-
-            int ruolo = scanner.nextInt();
-            scanner.nextLine();
-
-            boolean continua = true;
-            while (continua) {
-                if (ruolo == 1) {
-                    System.out.println("Menù Utente");
-                    System.out.println("1 Visualizza le tratte disponibili");
-                    System.out.println("2 Visualizza i tuoi biglietti");
-                    System.out.println("3 Visualizza i tuoi abbonamenti");
-                    System.out.println("0 Esci");
-                } else {
-                    System.out.println("Menù Admin");
-                    System.out.println("1 Visualizza biglietti emessi in una certa data");
-                    System.out.println("2 Visualizza biglietti emessi in un preciso veicolo");
-                    System.out.println("3 Visualizza veicoli in manutenzione");
-                    System.out.println("4 Visualizza tempo di percorrenza effettivo e previsto di una tratta");
-                    System.out.println("5 Visualizza tutte le tratte");
-                    System.out.println("6 Visualizza tutte le tessere");
-                    System.out.println("0 Esci");
+                boolean continua = true;
+                while (continua) {
+                    if (ruolo == 1) {
+                        System.out.println("Menù Utente");
+                        System.out.println("1 Visualizza le tratte disponibili");
+                        System.out.println("2 Visualizza i tuoi biglietti");
+                        System.out.println("3 Visualizza i tuoi abbonamenti");
+                        System.out.println("0 Esci");
+                    } else {
+                        System.out.println("Menù Admin");
+                        System.out.println("1 Visualizza biglietti emessi in una certa data");
+                        System.out.println("2 Visualizza biglietti emessi in un preciso veicolo");
+                        System.out.println("3 Visualizza veicoli in manutenzione");
+                        System.out.println("4 Visualizza tempo di percorrenza medio di una tratta");
+                        System.out.println("5 Visualizza tutte le tratte");
+                        System.out.println("6 Visualizza tutte le tessere");
+                        System.out.println("0 Esci");
+                    }
 
                     System.out.println("Scegli");
                     int scelta = scanner.nextInt();
                     scanner.nextLine();
+
                     switch (scelta) {
-                        //utente
-                        case 1: //utente vede tratte
+                        case 1: //utente vede tutte le tratte
                             if (ruolo == 1) {
                                 trattaDAO.findAll().forEach(t -> System.out.println(t.getZonaPartenza() + "->" + t.getCapolinea()));
-
-                            } else {
-//admin vede biglietti emessi in certa data
+                            } else { //admin vede biglietti emessi in data precisa
                                 System.out.println("Inserisci la data(yyyy-MM-dd): ");
                                 LocalDate data = LocalDate.parse(scanner.nextLine());
                                 titoloDAO.findByDataEmissione(data).forEach(System.out::println);
                             }
                             break;
 
-                        case 2: ////utente vede biglietti emessi in certa data
-
+                        case 2: //admin vede biglietti emessi in data precisa
                             if (ruolo == 1) {
                                 System.out.println("Inserisci la data(yyyy-MM-dd): ");
                                 LocalDate data = LocalDate.parse(scanner.nextLine());
                                 titoloDAO.findByDataEmissione(data).forEach(System.out::println);
-                            } else {
-                                //admin vede biglietti associati a un veicolo
+                            } else { // biglietti timbrati su un veicolo
                                 System.out.println("Inserisci id veicolo");
-                                UUID VeicoloId = UUID.fromString(scanner.nextLine());
-                                titoloDAO.findByVeicoilo(VeicoloId).forEach(System.out::println);
+                                UUID veicoloId = UUID.fromString(scanner.nextLine());
+                                titoloDAO.findByVeicoilo(veicoloId).forEach(System.out::println);
                             }
                             break;
 
-                        case 3: // utente vede i suoi abbonamenti
+                        case 3: //utente vede abbonamenti di una tessera
                             if (ruolo == 1) {
                                 System.out.println("Visualizza tutti gli abbonamenti di una tessera di un utente");
-                                titoloDAO.
+                                UUID utenteId = UUID.fromString(scanner.nextLine());
+                                titoloDAO.findByUtenteId(utenteId).forEach(System.out::println);
+                            } else { // admin vede veicoli in manutenzione
+                                System.out.println("Visualizza tutti i veicoli in manutenzione");
+                                manutenzioneDAO.findVeicoliInManutenzione().forEach(System.out::println);
                             }
+                            break;
 
+                        case 4: //admin visualizza tempo percorrenza medio di un veicolo
+                            System.out.println("Visualizza tempo percorrenza medio. Inserisci l'ID della tratta (UUID):");
+                            UUID trattaId = UUID.fromString(scanner.nextLine());
+                            Double tempoMedio = assegnazioneDAO.tempoMedioByTratta(trattaId);
+                            System.out.println("Il tempo medio di percorrenza per la tratta " + trattaId + " è: " + tempoMedio + " minuti.");
+                            break;
 
-                            } else {
-                                //admin genera veicoli
+                        case 5: //admin vede tutte le tratte
+                            trattaDAO.findAll().forEach(System.out::println);
+                            break;
 
+                        case 6: //admin vede tutte le tessere
+                            tesseraDAO.findAll().forEach(System.out::println);
+                            break;
 
-                            }
-                    }
+                        case 0:
+                            continua = false;
+                            break;
 
+                        default:
+                            System.out.println("Scelta non valida.");
+                    } // chiusura switch
 
-                } finally{
-                    if (em != null && em.isOpen()) {
-                        em.close();
-                    }
-                    if (emf != null && emf.isOpen()) {
-                        emf.close();
-                    }
-                    System.out.println("\n✅ Operazioni completate!");
-                }
+                } // chiusura while
 
-
+            } catch (Exception e) {
+                System.err.println("❌ Errore durante l'esecuzione: " + e.getMessage());
+                e.printStackTrace();
             }
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+            if (emf != null && emf.isOpen()) {
+                emf.close();
+            }
+            System.out.println("\n✅ Operazioni completate!");
         }
+    }
+}
