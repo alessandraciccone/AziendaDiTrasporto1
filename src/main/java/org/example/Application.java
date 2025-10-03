@@ -1,13 +1,11 @@
 package org.example;
 
 import com.github.javafaker.DateAndTime;
-import dao.AssegnazioneTrattaDAO;
-import dao.TrattaDAO;
+import dao.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import entities.*;
-import dao.VeicoloDAO;
 
 import com.github.javafaker.Faker;
 import java.lang.reflect.Array;
@@ -21,6 +19,7 @@ public class Application {
     public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("azienda_di_trasporto");
     private static final Faker faker = new Faker(new Locale("it"));
     private static final Random random = new Random();
+
 
 
     public static void main(String[] args) {
@@ -62,11 +61,24 @@ public class Application {
 
 
         //generare punto emissione
-        List<PuntoEmissione> listaPuntiEmissione = new ArrayList<>();
-        int numeroDaGenerare = 5;
+        PuntoEmissioneDAO pd = new PuntoEmissioneDAO(em);
+
+        int numeroDaGenerare =10;
 
         for (int i = 0; i < numeroDaGenerare; i++) {
-            listaPuntiEmissione.add(generaPuntoEmissione());
+            PuntoEmissione puntoEmissione= generaPuntoEmissione();
+            pd.save(puntoEmissione);
+        }
+
+        //genera utenti
+
+        UtenteDao ud = new UtenteDao(em);
+        int numeroDiPersoneCreate = 20;
+
+        for (int i = 0; i < numeroDiPersoneCreate; i++) {
+            Utente utente = generaUtenteCasuale();
+            ud.save(utente);
+
         }
 
 
