@@ -30,7 +30,7 @@ public class TitoloDiViaggioDao {
 
     //ricerca biglietto associati a un veicolo(ricerca la vidimazione del biglietto)
     public List<Biglietto> findByVeicoilo(UUID idVeicolo){
-        TypedQuery<Biglietto> query=em.createQuery( "SELECT b FROM Biglietto b WHERE b.veicolo.id = :idVeicolo",Biglietto.class);
+        TypedQuery<Biglietto> query=em.createQuery( "SELECT b FROM Biglietto b WHERE b.veicolo.idVeicolo = :idVeicolo",Biglietto.class);
         query.setParameter("idVeicolo", idVeicolo);
         return query.getResultList();
 
@@ -57,19 +57,19 @@ public class TitoloDiViaggioDao {
 
     //ricerca tutti i titoli di viaggio
     public List<TitoloDiViaggio> findAllTitoli(){
-        TypedQuery<TitoloDiViaggio> query=em.createQuery("SELECT a FROM Abbonamento a", TitoloDiViaggio.class);
+        TypedQuery<TitoloDiViaggio> query=em.createQuery("SELECT a FROM TitoloDiViaggio t", TitoloDiViaggio.class);
         return query.getResultList();
     }
     //ricerca x tessera
     public List<Abbonamento> findBytessera(UUID idTessera){
-        TypedQuery<Abbonamento> query=em.createQuery("SELECT a FROM Abbonamento a WHERE a.tessera.id = :idTessera", Abbonamento.class);
+        TypedQuery<Abbonamento> query=em.createQuery("SELECT a FROM Abbonamento a WHERE a.tessera.idTessera = :idTessera", Abbonamento.class);
         query.setParameter("idTessera", idTessera);
         return query.getResultList();
     }
 
     //ricerca abbonamenti attivi in una data specifica
     public List<Abbonamento> findAttiviInData(LocalDate data){
-        TypedQuery<Abbonamento> query=em.createQuery("SELECT a FROM Abbonamento a WHERE :data BETWEEN a.DataInizio AND a.DataFine", Abbonamento.class);
+        TypedQuery<Abbonamento> query=em.createQuery("SELECT a FROM Abbonamento a WHERE :data BETWEEN a.dataInizio AND a.dataFine", Abbonamento.class);
         query.setParameter("data",data);
         return query.getResultList();
     }

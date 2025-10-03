@@ -41,7 +41,7 @@ public List<Utente> findAll(){
 
     //cerca per cognone
     public List<Utente> findByCognome(String cognome){
-        TypedQuery<Utente> query=em.createQuery("SELECT u FROM Utente u WHERE u.Cognome = :cognome", Utente.class);
+        TypedQuery<Utente> query=em.createQuery("SELECT u FROM Utente u WHERE u.cognome = :cognome", Utente.class);
         query.setParameter("cognome", cognome);
         return query.getResultList();
 
@@ -55,21 +55,21 @@ public List<Utente> findAll(){
 
     // cerca x abbonamento
     public List <Utente> findWithAbbonamento(){
-        TypedQuery<Utente> query=em.createQuery("SELECT DISTINCT u FROM Utente u JOIN u.abbonamenti a", Utente.class);
+        TypedQuery<Utente> query=em.createQuery("SELECT DISTINCT u FROM Utente u JOIN u.tessere t JOIN t.abbonamenti a", Utente.class);
         return query.getResultList();
         }
 
 
         //cera utente admin
     public List<Utente> findAdminUsers(){
-        TypedQuery<Utente> query=em.createQuery("SELECT u FROM Utente u WHERE u.admin = true", Utente.class);
+        TypedQuery<Utente> query=em.createQuery("SELECT u FROM Utente u WHERE u.isAdmin = true", Utente.class);
         return query.getResultList()
 ;    }
 
 
     //cerca utente non admin
     public  List<Utente> findNonAdminUsers(){
-        TypedQuery<Utente> query=em.createQuery("SELECT u FROM Utente u WHERE u.admin = false", Utente.class);
+        TypedQuery<Utente> query=em.createQuery("SELECT u FROM Utente u WHERE u.isAdmin = false", Utente.class);
         return query.getResultList();
     }
         //aggiorna utente

@@ -30,7 +30,7 @@ public class PuntoEmissioneDAO {
             em.persist(puntoEmissione);
             transaction.commit();
             System.out.println("PuntoEmissione " + puntoEmissione.getNome() + " salvato con successo!");
-        } catch (NotFoundException e) {
+        } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
             }
@@ -58,7 +58,7 @@ public class PuntoEmissioneDAO {
 
                 transaction.commit();
                 System.out.println("PuntoEmissione con ID " + id + " eliminato con successo.");
-            } catch (NotFoundException e) {
+            } catch (Exception e) {
 
                 if (transaction.isActive()) {
                     transaction.rollback();
@@ -76,19 +76,19 @@ public class PuntoEmissioneDAO {
 
     // trova tutti i punti rivenditori
     public List<Rivenditore> findAllRivenditori(){
-        TypedQuery<Rivenditore> query = em.createQuery("SELECT r FROM Rivenditori r", Rivenditore.class);
+        TypedQuery<Rivenditore> query = em.createQuery("SELECT r FROM Rivenditore r", Rivenditore.class);
         return query.getResultList();
     }
 
     // trova tutti i distributori
     public List<Distributore> findAllDistributori(){
-        TypedQuery<Distributore> query = em.createQuery("SELECT d FROM Distributori d", Distributore.class);
+        TypedQuery<Distributore> query = em.createQuery("SELECT d FROM Distributore d", Distributore.class);
         return query.getResultList();
     }
 
     // trova i distributori attivi
     public List<Distributore> findAllActive(){
-        TypedQuery<Distributore> query = em.createQuery("SELECT d FROM Distributori d WHERE d.stato = :attivo", Distributore.class);
+        TypedQuery<Distributore> query = em.createQuery("SELECT d FROM Distributore d WHERE d.stato = :attivo", Distributore.class);
         query.setParameter("stato",DistributoreStato.ATTIVO);
         return query.getResultList();
     }

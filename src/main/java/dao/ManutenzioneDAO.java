@@ -44,7 +44,7 @@ public class ManutenzioneDAO {
     }
 
     // Cerca manutenzioni per ID veicolo
-    public List<Manutenzione> findByVeicoloId(Long veicoloId) {
+    public List<Manutenzione> findByVeicoloId(UUID veicoloId) {
         TypedQuery<Manutenzione> query = em.createQuery(
                 "SELECT m FROM Manutenzione m WHERE m.veicolo.idVeicolo = :veicoloId ORDER BY m.dataInizio DESC",
                 Manutenzione.class);
@@ -141,7 +141,7 @@ public class ManutenzioneDAO {
     }
 
     // Cerca ultima manutenzione di un veicolo per ID
-    public Manutenzione findUltimaManutenzioneByVeicoloId(Long veicoloId) {
+    public Manutenzione findUltimaManutenzioneByVeicoloId(UUID veicoloId) {
         TypedQuery<Manutenzione> query = em.createQuery(
                 "SELECT m FROM Manutenzione m WHERE m.veicolo.idVeicolo = :veicoloId ORDER BY m.dataInizio DESC",
                 Manutenzione.class);
@@ -220,7 +220,7 @@ public class ManutenzioneDAO {
     }
 
     // Conta manutenzioni per ID veicolo
-    public long countByVeicoloId(Long veicoloId) {
+    public long countByVeicoloId(UUID veicoloId) {
         TypedQuery<Long> query = em.createQuery(
                 "SELECT COUNT(m) FROM Manutenzione m WHERE m.veicolo.idVeicolo = :veicoloId",
                 Long.class);
@@ -255,7 +255,7 @@ public class ManutenzioneDAO {
     }
 
     // Verifica se un veicolo è in manutenzione
-    public boolean isVeicoloInManutenzione(Long veicoloId) {
+    public boolean isVeicoloInManutenzione(UUID veicoloId) {
         LocalDate oggi = LocalDate.now();
         TypedQuery<Long> query = em.createQuery(
                 "SELECT COUNT(m) FROM Manutenzione m WHERE m.veicolo.idVeicolo = :veicoloId AND m.dataInizio <= :oggi AND (m.dataFine IS NULL OR m.dataFine >= :oggi)",
@@ -266,7 +266,7 @@ public class ManutenzioneDAO {
     }
 
     // Calcola durata media manutenzioni per veicolo
-    public double calcolaDurataMediaManutenzioni(Long veicoloId) {
+    public double calcolaDurataMediaManutenzioni(UUID veicoloId) {
         TypedQuery<Double> query = em.createQuery(
                 "SELECT AVG(DATEDIFF(m.dataFine, m.dataInizio)) FROM Manutenzione m WHERE m.veicolo.idVeicolo = :veicoloId AND m.dataFine IS NOT NULL",
                 Double.class);

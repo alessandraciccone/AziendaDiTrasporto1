@@ -40,7 +40,7 @@ public class AssegnazioneTrattaDAO {
 
     public List<AssegnazioneTratta> findByVeicolo(UUID veicoloId) {
         TypedQuery<AssegnazioneTratta> query =
-                em.createQuery("SELECT a FROM AssegnazioneTratta a WHERE a.veicolo.id = :veicoloId", AssegnazioneTratta.class);
+                em.createQuery("SELECT a FROM AssegnazioneTratta a WHERE a.veicolo.idVeicolo = :veicoloId", AssegnazioneTratta.class);
                 query.setParameter("veicoloId", veicoloId);
         return query.getResultList();
     }
@@ -49,7 +49,7 @@ public class AssegnazioneTrattaDAO {
 
     public Double tempoMedioByTratta(UUID trattaId) {
         TypedQuery<Double> query =
-                em.createQuery("SELECT AVG(a.tempoEffettivo) FROM AssegnazioneTratta a WHERE a.tratta.id = :trattaId", Double.class);
+                em.createQuery("SELECT AVG(a.tempoEffettivo) FROM AssegnazioneTratta a WHERE a.tratta.idTratta = :trattaId", Double.class);
         query.setParameter("trattaId", trattaId);
         return query.getSingleResult();
     }
