@@ -190,110 +190,88 @@ for(Manutenzione m: manutenzioni){
         } catch (Exception e) {
             System.err.println("Errore durante l'esecuzione: " + e.getMessage());
 
-Scanner scanner = new Scanner(System.in);
-System.out.println("Seleziona:  ");
-System.out.println("1 Utente");
-System.out.println("2 Admin");
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Seleziona:  ");
+            System.out.println("1 Utente");
+            System.out.println("2 Admin");
 
-int ruolo = scanner.nextInt();
-scanner.nextLine();
+            int ruolo = scanner.nextInt();
+            scanner.nextLine();
 
-boolean continua=true;
-while(continua){
-    if(ruolo==1){
-        System.out.println("Menù Utente");
-        System.out.println("1 Visualizza le tratte disponibili");
-        System.out.println("2 Visualizza i tuoi biglietti");
-        System.out.println("3 Visualizza i tuoi abbonamenti");
-        System.out.println("4 Esci");
-    }
-    else{
-        System.out.println("Menù Admin");
-        System.out.println("1 Visualizza biglietti emessi in una certa data");
-        System.out.println("2 Visualizza biglietti emessi in un preciso veicolo");
-        System.out.println("3 Genera Veicoli");
-        System.out.println("4 Genera Manutenzioni");
-        System.out.println("5 Genera tratte e assegnazioni");
-        System.out.println("6 Visualizza veicoli in manutenzione");
-        System.out.println("7 Visualizza tempo di percorrenza effettivo e previsto di una tratta");
-        System.out.println("8 Visualizza tutte le tratte");
-        System.out.println("9 Visualizza tutte le tessere");
-        System.out.println("0 Esci");
+            boolean continua = true;
+            while (continua) {
+                if (ruolo == 1) {
+                    System.out.println("Menù Utente");
+                    System.out.println("1 Visualizza le tratte disponibili");
+                    System.out.println("2 Visualizza i tuoi biglietti");
+                    System.out.println("3 Visualizza i tuoi abbonamenti");
+                    System.out.println("0 Esci");
+                } else {
+                    System.out.println("Menù Admin");
+                    System.out.println("1 Visualizza biglietti emessi in una certa data");
+                    System.out.println("2 Visualizza biglietti emessi in un preciso veicolo");
+                    System.out.println("3 Visualizza veicoli in manutenzione");
+                    System.out.println("4 Visualizza tempo di percorrenza effettivo e previsto di una tratta");
+                    System.out.println("5 Visualizza tutte le tratte");
+                    System.out.println("6 Visualizza tutte le tessere");
+                    System.out.println("0 Esci");
 
-        System.out.println("Scegli");
-        int scelta=scanner.nextInt();
-        scanner.nextLine();
-        switch(scelta){
-            //utente
-            case 1: //utente vede tratte
-                if(ruolo==1){
-                    trattaDAO.findAll().forEach(t-> System.out.println(t.getZonaPartenza() + "->" +t.getCapolinea()));
+                    System.out.println("Scegli");
+                    int scelta = scanner.nextInt();
+                    scanner.nextLine();
+                    switch (scelta) {
+                        //utente
+                        case 1: //utente vede tratte
+                            if (ruolo == 1) {
+                                trattaDAO.findAll().forEach(t -> System.out.println(t.getZonaPartenza() + "->" + t.getCapolinea()));
 
-                }
-                else {
+                            } else {
 //admin vede biglietti emessi in certa data
-                    System.out.println("Inserisci la data(yyyy-MM-dd): ");
-                    LocalDate data= LocalDate.parse(scanner.nextLine());
-                    titoloDAO.findByDataEmissione(data).forEach(System.out::println);
+                                System.out.println("Inserisci la data(yyyy-MM-dd): ");
+                                LocalDate data = LocalDate.parse(scanner.nextLine());
+                                titoloDAO.findByDataEmissione(data).forEach(System.out::println);
+                            }
+                            break;
+
+                        case 2: ////utente vede biglietti emessi in certa data
+
+                            if (ruolo == 1) {
+                                System.out.println("Inserisci la data(yyyy-MM-dd): ");
+                                LocalDate data = LocalDate.parse(scanner.nextLine());
+                                titoloDAO.findByDataEmissione(data).forEach(System.out::println);
+                            } else {
+                                //admin vede biglietti associati a un veicolo
+                                System.out.println("Inserisci id veicolo");
+                                UUID VeicoloId = UUID.fromString(scanner.nextLine());
+                                titoloDAO.findByVeicoilo(VeicoloId).forEach(System.out::println);
+                            }
+                            break;
+
+                        case 3: // utente vede i suoi abbonamenti
+                            if (ruolo == 1) {
+                                System.out.println("Visualizza tutti gli abbonamenti di una tessera di un utente");
+                                titoloDAO.
+                            }
+
+
+                            } else {
+                                //admin genera veicoli
+
+
+                            }
+                    }
+
+
+                } finally{
+                    if (em != null && em.isOpen()) {
+                        em.close();
+                    }
+                    if (emf != null && emf.isOpen()) {
+                        emf.close();
+                    }
+                    System.out.println("\n✅ Operazioni completate!");
                 }
-                break;
-
-            case 2: ////utente vede biglietti emessi in certa data
-
-                if(ruolo==1) {
-                    System.out.println("Inserisci la data(yyyy-MM-dd): ");
-                    LocalDate data= LocalDate.parse(scanner.nextLine());
-                    titoloDAO.findByDataEmissione(data).forEach(System.out::println);
-                }
-                else {
-                    //admin vede biglietti associati a un veicolo
-                    System.out.println("Inserisci id veicolo");
-                    UUID VeicoloId = UUID.fromString(scanner.nextLine());
-                    titoloDAO.findByVeicoilo(VeicoloId).forEach(System.out::println);
-                }
-                break;
-
-            case 3: // utente vede i suoi abbonamenti
-                 if(ruolo==1){
 
 
-                 }
-                 else{
-                     //admin genera veicoli
-                     System.out.println("Genera Veicoli");
-                     System.out.println("1 Autobus");
-                     System.out.println("2 Tram");
-
-                     int tipo = scanner.nextInt();
-                     scanner.nextLine();
-
-                     System.out.println("Inserisci capienza:");
-                     int capienza = scanner.nextInt();
-                     scanner.nextLine();
-Veicolo veicolo= null;
-
-switch(tipo){
-    case 1:
-        veicolo = new Autobus(capienza);
-
-}
-                 }
-        }
-
-    }
-}
-
-
-        } finally {
-            if (em != null && em.isOpen()) {
-                em.close();
             }
-            if (emf != null && emf.isOpen()) {
-                emf.close();
-            }
-            System.out.println("\n✅ Operazioni completate!");
         }
-
-
-    }
-}
