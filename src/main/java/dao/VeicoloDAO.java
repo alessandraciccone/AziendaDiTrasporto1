@@ -34,7 +34,9 @@ public class VeicoloDAO {
     // CERCA tutti i veicoli
     public List<Veicolo> findAll() {
         TypedQuery<Veicolo> query = entityManager.createQuery(
-                "SELECT v FROM Veicolo v", Veicolo.class);
+            "SELECT v FROM Veicolo v", 
+            Veicolo.class
+        );
         return query.getResultList();
     }
 

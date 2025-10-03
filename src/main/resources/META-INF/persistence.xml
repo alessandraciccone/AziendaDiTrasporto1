@@ -24,8 +24,8 @@
             <property name="jakarta.persistence.jdbc.password" value="1234"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
-            <!-- CAMBIATO DA "create" A "update" per mantenere i dati -->
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <!-- CAMBIATO DA "update" A "create" per ricreare le tabelle -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
             
             <!-- Opzionale: mostra le query SQL per debug -->
             <property name="hibernate.show_sql" value="true"/>

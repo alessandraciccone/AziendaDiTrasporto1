@@ -59,8 +59,6 @@ public class Application {
         System.out.println("✓ Assegnazioni salvate:");
         System.out.println("  - " + ass1);
         System.out.println("  - " + ass2);
-
-
         System.out.println("Done");
 
 
@@ -68,22 +66,49 @@ public class Application {
         PuntoEmissioneDAO pd = new PuntoEmissioneDAO(em);
 
         int numeroDaGenerare =10;
+        List<PuntoEmissione> puntiEmissioneList = new ArrayList<>();
 
         for (int i = 0; i < numeroDaGenerare; i++) {
             PuntoEmissione puntoEmissione= generator.generaPuntoEmissione();
             pd.save(puntoEmissione);
+            puntiEmissioneList.add(puntoEmissione);
         }
 
         //genera utenti
 
         UtenteDao ud = new UtenteDao(em);
+        TesseraDAO tesseraDAO = new TesseraDAO(em);
+        TitoloDiViaggioDao titoloDAO = new TitoloDiViaggioDao(em);
+        
         int numeroDiPersoneCreate = 20;
+
+        // Prima genera punti emissione e veicoli (già fatto sopra)
+        puntiEmissioneList = pd.findAll();
+        List<Veicolo> veicoliList = veicoloDAO.findAll();
 
         for (int i = 0; i < numeroDiPersoneCreate; i++) {
             Utente utente = generator.generaUtenteCasuale();
             ud.save(utente);
-
+            
+            // Salva anche le tessere dell'utente
+            for (Tessera tessera : utente.getTessere()) {
+                tesseraDAO.save(tessera);
+                
+                // Genera e salva titoli di viaggio per ogni tessera
+                List<TitoloDiViaggio> titoli = generaTitoloDiViaggioCasuale(
+                    utente, 
+                    tessera, 
+                    puntiEmissioneList, 
+                    veicoliList
+                );
+                
+                for (TitoloDiViaggio titolo : titoli) {
+                    titoloDAO.save(titolo);
+                }
+            }
         }
+        
+        System.out.println("✓ Generati utenti con tessere e titoli di viaggio");
 
 
         try {

@@ -9,7 +9,7 @@ public class Biglietto extends TitoloDiViaggio {
     @ManyToOne
     @JoinColumn(name = "veicolo_id")
     private Veicolo veicolo;
-
+    private LocalDate dataVidimazione;
 
 
     public Biglietto() {}
@@ -25,6 +25,13 @@ public class Biglietto extends TitoloDiViaggio {
 
     public void setVeicolo(Veicolo veicolo) {
         this.veicolo = veicolo;
+    }
+
+    public LocalDate getDataVidimazione() {
+        return dataVidimazione;
+    }
+    public void setDataVidimazione(LocalDate dataVidimazione) {
+        this.dataVidimazione = dataVidimazione;
     }
 
     @Override

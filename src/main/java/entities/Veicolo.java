@@ -51,16 +51,8 @@ public class Veicolo {
         return tipo;
     }
 
-    public void setTipo(VeicoloType tipo) {
-        this.tipo = tipo;
-    }
-
     public int getCapienza() {
         return capienza;
-    }
-
-    public void setCapienza(int capienza) {
-        this.capienza = capienza;
     }
 
     public StatoCondizione getStatoCondizione() {
