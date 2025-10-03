@@ -95,7 +95,7 @@ public class Application {
                 tesseraDAO.save(tessera);
                 
                 // Genera e salva titoli di viaggio per ogni tessera
-                List<TitoloDiViaggio> titoli = generaTitoloDiViaggioCasuale(
+                List<TitoloDiViaggio> titoli = generator.generaTitoloDiViaggioCasuale(
                     utente, 
                     tessera, 
                     puntiEmissioneList, 
